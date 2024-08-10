@@ -39,20 +39,22 @@ public:
         // return true;
 
         //Approach-2
+        if(head==nullptr || head->next==nullptr)return true;
         ListNode* tortoise = head;
         ListNode* hare = head;
         while(hare->next!=nullptr && hare->next->next!=nullptr){
             tortoise = tortoise->next;
             hare = hare->next->next;
         }
-        ListNode* mid = tortoise->next;
+        ListNode* newHead = reverseLL(tortoise->next);
         ListNode* first = head;
-        ListNode* second = reverseLL(mid);
+        ListNode* second = newHead;
         while(second!=nullptr){
             if(first->val!=second->val)return false;
             first = first->next;
             second = second->next;
         }
+        reverseLL(newHead);
         return true;
     }
 };
