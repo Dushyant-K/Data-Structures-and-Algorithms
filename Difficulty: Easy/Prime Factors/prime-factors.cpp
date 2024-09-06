@@ -18,6 +18,8 @@ class Solution{
 	        if((n/i)!=i){
 	           count++;
 	        }
+	        
+	        if(count>2)break;
 	    }
 	    if(count==2)return true;
 	    
@@ -34,6 +36,7 @@ class Solution{
 	   //         }
 	   //     }
 	   // }
+	   // sort(ans.begin(),ans.end());
 	   // return ans;
 	   
 	   //Approach-2
