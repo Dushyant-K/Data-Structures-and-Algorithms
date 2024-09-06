@@ -10,16 +10,20 @@ class Solution{
     vector<long long int> twoOddNum(long long int Arr[], long long int N)  
     {
         //Approach-1
-        vector<long long int> ans;
-        map<long long int,int> mpp;
-        for(int i=0;i<N;i++){
-            mpp[Arr[i]]++;
-        }
-        for(auto it : mpp){
-            if((it.second)%2==1)ans.push_back(it.first);
-        }
-        sort(ans.begin(),ans.end(),greater<int>());
-        return ans;
+        // map<long long int,int> mpp;
+        // for(int i=0;i<N;i++){
+        //     mpp[Arr[i]]++;
+        // }
+        // vector<long long int> ans;
+        // for(auto it: mpp){
+        //     if((it.second)%2==1)
+        //     ans.push_back(it.first);
+        // }
+        // sort(ans.begin(),ans.end(),greater<int>());
+        // return ans;
+        
+        //Approach-2
+        
     }
 };
 
