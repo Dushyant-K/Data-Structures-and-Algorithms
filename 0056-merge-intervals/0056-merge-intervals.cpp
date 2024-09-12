@@ -25,21 +25,13 @@ public:
 
         //Approach-2
         for(int i=0;i<n;i++){
-            int start = intervals[i][0];
-            int end = intervals[i][1];
-            if(ans.empty()){
-                ans.push_back({start,end});
+            if(ans.empty()||intervals[i][0]>ans.back()[1]){
+                ans.push_back(intervals[i]);
             }
             else{
-                if(intervals[i][0]<=ans.back()[1]){
-                    end = max(end,ans.back()[1]);
-                }
-                else{
-                    ans.push_back({start,end});
-                    continue;
-                }
+                ans.back()[1]=max(ans.back()[1],intervals[i][1]);
             }
-            ans.back()[1]=end;
+
         }
         return ans;
     }
