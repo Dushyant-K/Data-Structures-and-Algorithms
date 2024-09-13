@@ -18,8 +18,29 @@ public:
         recursiveinorderTraversal(root->right,ans);
     }
     vector<int> inorderTraversal(TreeNode* root) {
+        //Approach-1
+        // vector<int> ans;
+        // recursiveinorderTraversal(root,ans);
+        // return ans;
+
+        //Approach-2(Stack based Approach)
         vector<int> ans;
-        recursiveinorderTraversal(root,ans);
+        if(root==nullptr)return ans;
+        stack<TreeNode*> st;
+        TreeNode* temp = root;
+        while(true){
+            if(temp!=nullptr){
+                st.push(temp);
+                temp=temp->left;
+            }
+            else{
+                if(st.empty()==true)break;
+                temp = st.top();
+                st.pop();
+                ans.push_back(temp->val);
+                temp = temp->right;
+            }
+        }
         return ans;
     }
 };
