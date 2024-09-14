@@ -12,23 +12,13 @@
 class Solution {
 public:
     int sumOfAllPaths(TreeNode* root, int& maxi){
-        if (root == nullptr) return 0;
+        if(root==nullptr)return 0;
 
-        // Calculate the maximum sum of the left and right subtrees
-        // If a subtree sum is negative, we discard it by taking max with 0
-        int leftSum = max(0, sumOfAllPaths(root->left, maxi));
-        int rightSum = max(0, sumOfAllPaths(root->right, maxi));
+        int lh = max(0,sumOfAllPaths(root->left,maxi));
+        int rh = max(0,sumOfAllPaths(root->right,maxi));
 
-        // Calculate the current path sum by including the current node's value
-        // This considers the current node as the root of the maximum path
-        int currentPathSum = leftSum + rightSum + root->val;
-
-        // Update the global maximum path sum if the current path sum is larger
-        maxi = max(maxi, currentPathSum);
-
-        // Return the maximum path sum including either left or right child (but not both)
-        // because a path can only continue through one child
-        return max(leftSum, rightSum) + root->val;
+        maxi = max(maxi,lh+rh+root->val);
+        return (max(lh,rh)+root->val);
     }
     int maxPathSum(TreeNode* root) {
         int maxSum=INT_MIN;
