@@ -12,14 +12,20 @@ class Solution {
 
     // Note that the size of the array is n-1
     int missingNumber(int n, vector<int>& arr) {
-
-       int xor1=0,xor2=0;
-      for(int i=0;i<arr.size();i++){
-          xor1=xor1^arr[i];
-          xor2=xor2^(i+1);
-      }        
-      xor2=xor2^n;
-      return (xor1^xor2);
+        //Approach-1
+        int sum1 = 0;
+        for(int i = 0; i < n-1; i++){
+            sum1 ^= arr[i];
+        }
+        
+        // XOR all numbers from 1 to n
+        int sum2 = 0;
+        for(int i = 1; i <= n; i++){
+            sum2 ^= i;
+        }
+        
+        // Missing number is the result of XORing sum1 and sum2
+        return (sum1 ^ sum2);
     }
 };
 
