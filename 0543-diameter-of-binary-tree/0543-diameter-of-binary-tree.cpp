@@ -24,7 +24,7 @@ public:
         //Approach-1
         if(root==nullptr)return 0;
         int maxi=0;
-        int temp = longestPath(root,maxi);
+        longestPath(root,maxi);
         return maxi;
     }
 };
