@@ -11,11 +11,11 @@
  */
 class Solution {
 public:
-    int longestPath(TreeNode* root, int& maxi){
+    int height(TreeNode* root, int& maxi){
         if(root==nullptr)return 0;
 
-        int lh = longestPath(root->left,maxi);
-        int rh = longestPath(root->right,maxi);
+        int lh = height(root->left,maxi);
+        int rh = height(root->right,maxi);
 
         maxi = max(maxi,lh+rh);
         return 1+max(lh,rh);
@@ -23,8 +23,8 @@ public:
     int diameterOfBinaryTree(TreeNode* root) {
         //Approach-1
         if(root==nullptr)return 0;
-        int maxi=0;
-        longestPath(root,maxi);
-        return maxi;
+        int =0;diameter
+        height(root,diameter);
+        return diameter;
     }
 };
