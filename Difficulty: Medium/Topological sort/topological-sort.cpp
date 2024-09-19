@@ -19,21 +19,46 @@ class Solution
 	//Function to return list containing vertices in Topological order. 
 	vector<int> topoSort(int V, vector<int> adj[]) 
 	{
-	    // Approach-1
-	    vector<int> visited(V,0);
-	    vector<int> ans;
-	    stack<int> st;
-	    for(int i=0;i<V;i++){
-	        if(visited[i]==0){
-	            dfs(i,adj,visited,st);
-	        }
-	    }
-	    while(!st.empty()){
-	        int temp = st.top();
-	        ans.push_back(temp);
-	        st.pop();
-	    }
-	    return ans;
+	    // Approach-1(Base Method is to find with DFS)
+	   // vector<int> visited(V,0);
+	   // vector<int> ans;
+	   // stack<int> st;
+	   // for(int i=0;i<V;i++){
+	   //     if(visited[i]==0){
+	   //         dfs(i,adj,visited,st);
+	   //     }
+	   // }
+	   // while(!st.empty()){
+	   //     int temp = st.top();
+	   //     ans.push_back(temp);
+	   //     st.pop();
+	   // }
+	   // return ans;
+	   
+	   //Approach-2(Kahn's Algorithm)
+	   vector<int> indegree(V,0);
+	   queue<int> q;
+	   for(int i=0;i<V;i++){
+	       for(auto it:adj[i]){
+	           indegree[it]++;
+	       }
+	   }
+	   for(int i=0;i<V;i++){
+	       if(indegree[i]==0){
+	           q.push(i);
+	       }
+	   }
+	   vector<int> topo;
+	   while(!q.empty()){
+	       int node = q.front();
+	       topo.push_back(node);
+	       q.pop();
+	       for(auto it:adj[node]){
+	           indegree[it]--;
+	           if(indegree[it]==0)q.push(it);
+	       }
+	   }
+	   return topo;
 	}
 };
 
