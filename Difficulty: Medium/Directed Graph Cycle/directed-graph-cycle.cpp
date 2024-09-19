@@ -22,15 +22,40 @@ class Solution {
     // Function to detect cycle in a directed graph.
     bool isCyclic(int V, vector<int> adj[]) {
         // Approach-1
-        vector<int> visited(V,0);
-        vector<int> pathVisited(V,0);
-        for(int i=0;i<V;i++){
-            if(!visited[i]){
-                if(detectCycle(i,adj,visited,pathVisited))return true;
-            }
-        }
+        // vector<int> visited(V,0);
+        // vector<int> pathVisited(V,0);
+        // for(int i=0;i<V;i++){
+        //     if(!visited[i]){
+        //         if(detectCycle(i,adj,visited,pathVisited))return true;
+        //     }
+        // }
         
-        return false;
+        // return false;
+        
+        //Approach-2(Using BFS-Kahn's Algorithm)
+       vector<int> indegree(V,0);
+	   queue<int> q;
+	   for(int i=0;i<V;i++){
+	       for(auto it:adj[i]){
+	           indegree[it]++;
+	       }
+	   }
+	   for(int i=0;i<V;i++){
+	       if(indegree[i]==0){
+	           q.push(i);
+	       }
+	   }
+	   vector<int> topo;
+	   while(!q.empty()){
+	       int node = q.front();
+	       topo.push_back(node);
+	       q.pop();
+	       for(auto it:adj[node]){
+	           indegree[it]--;
+	           if(indegree[it]==0)q.push(it);
+	       }
+	   }
+	   return (topo.size()==V)?false:true;
     }
 };
 
