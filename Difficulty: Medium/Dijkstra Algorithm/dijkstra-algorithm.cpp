@@ -10,40 +10,62 @@ class Solution
     //from the source vertex S.
     vector <int> dijkstra(int V, vector<vector<int>> adj[], int S)
     {
-        // Approach-1
-        // Initialize the distance vector with a large value
-        vector<int> dist(V, 1e9);
-        dist[S] = 0;
-
-        // Min-heap priority queue to get the node with the smallest distance
-        priority_queue<pair<int,int>, vector<pair<int,int>>, greater<pair<int,int>>> pq;
-        pq.push({0, S});
-
-        // Standard Dijkstra's Algorithm
-        while (!pq.empty()) {
-            int nodeDist = pq.top().first;
-            int node = pq.top().second;
-            pq.pop();
-
-            // Traverse through all adjacent nodes of the current node
-            for (auto it : adj[node]) {
+        // Approach-1(This approach didnt work understand why)
+        vector<int> dist(V,1e9);
+        queue<pair<int,int>> q;
+        dist[S]=0;
+        q.push({0,S});
+        while(!q.empty()){
+            int distance = q.front().first;
+            int node = q.front().second;
+            q.pop();
+            for(auto it: adj[node]){
                 int adjNode = it[0];
-                int edgeWeight = it[1];
-
-                // If a shorter path to adjNode is found
-                if (nodeDist + edgeWeight < dist[adjNode]) {
-                    dist[adjNode] = nodeDist + edgeWeight;
-                    pq.push({dist[adjNode], adjNode});
+                int weight = it[1];
+                if(distance+weight<dist[adjNode]){
+                    dist[adjNode]=distance+weight;
+                    q.push({dist[adjNode],adjNode});
                 }
             }
         }
-
-        // Replace unreachable nodes' distances with -1
-        for (int i = 0; i < V; i++) {
-            if (dist[i] == 1e9) dist[i] = -1;
+        for(int i=0;i<V;i++){
+            if(dist[i]==1e9)dist[i]=-1;
         }
-
         return dist;
+        
+        //Approach-2
+        //   vector<int> dist(V, 1e9);
+        // dist[S] = 0;
+
+        // // Min-heap priority queue to get the node with the smallest distance
+        // priority_queue<pair<int,int>, vector<pair<int,int>>, greater<pair<int,int>>> pq;
+        // pq.push({0, S});
+
+        // // Standard Dijkstra's Algorithm
+        // while (!pq.empty()) {
+        //     int nodeDist = pq.top().first;
+        //     int node = pq.top().second;
+        //     pq.pop();
+
+        //     // Traverse through all adjacent nodes of the current node
+        //     for (auto it : adj[node]) {
+        //         int adjNode = it[0];
+        //         int edgeWeight = it[1];
+
+        //         // If a shorter path to adjNode is found
+        //         if (nodeDist + edgeWeight < dist[adjNode]) {
+        //             dist[adjNode] = nodeDist + edgeWeight;
+        //             pq.push({dist[adjNode], adjNode});
+        //         }
+        //     }
+        // }
+
+        // // Replace unreachable nodes' distances with -1
+        // for (int i = 0; i < V; i++) {
+        //     if (dist[i] == 1e9) dist[i] = -1;
+        // }
+
+        // return dist;
     }
 };
 
