@@ -21,42 +21,37 @@ class Solution
     public:
     void merge(int arr[], int l, int m, int r)
     {
-         int left = l;
-         int right = m+1;
-          vector<int> ans;
-        int temp;
-         while(left<=m&&right<=r){
-             if(arr[left]<=arr[right]){
-                 ans.push_back(arr[left]);
-                 left++;
+         vector<int> res;
+         int i=l;
+         int j = m+1;
+         while(i<=m&&j<=r){
+             if(arr[i]<=arr[j]){
+                 res.push_back(arr[i]);
+                 i++;
              }
-             else if(arr[left]>arr[right]){
-                 ans.push_back(arr[right]);
-                 right++;
+             else{
+                 res.push_back(arr[j]);
+                 j++;
              }
          }
-         
-         while(left<=m){
-             ans.push_back(arr[left]);
-             left++;
+         while(i<=m){
+             res.push_back(arr[i]);
+             i++;
          }
-         
-         while(right<=r){
-             ans.push_back(arr[right]);
-             right++;
+         while(j<=r){
+             res.push_back(arr[j]);
+             j++;
          }
-         
-         for(int i=l;i<=r;i++){
-             arr[i]=ans[i-l];
-         }
-         
+         for (int k = 0; k < res.size(); k++) {
+            arr[l + k] = res[k];
+        }
+         return;
     }
     public:
     void mergeSort(int arr[], int l, int r)
     {
-        if(l>=r){
-            return;
-        }
+        if(l==r)return;
+        //code here
         int mid = (l+r)/2;
         mergeSort(arr,l,mid);
         mergeSort(arr,mid+1,r);
