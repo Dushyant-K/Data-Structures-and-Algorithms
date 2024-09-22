@@ -14,8 +14,22 @@ public:
         vector<int> temp;
         int n=nums.size();
         k=k%n;
-       reverse(nums,0,n-(k+1));
-       reverse(nums,n-k,n-1);
-       reverse(nums,0,n-1);
+        //Approach-1
+        for(int i=n-k;i<n;i++){
+            temp.push_back(nums[i]);
+        }
+        //Shifting elements
+         for (int i = n - 1; i >= k; i--) {
+        nums[i] = nums[i - k];
+    }
+        //Putting back
+        for(int i=0;i<k;i++){
+            nums[i]=temp[i];
+        }
+
+
+    //    reverse(nums,0,n-(k+1));
+    //    reverse(nums,n-k,n-1);
+    //    reverse(nums,0,n-1);
     }
 };
