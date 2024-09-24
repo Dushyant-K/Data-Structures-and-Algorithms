@@ -5,59 +5,28 @@ using namespace std;
 // } Driver Code Ends
 class Solution {
   public:
-  
-    bool detectCycleDFS(int src, int parent, vector<int> adj[], int visited[]){
-        visited[src] = 1;
-       for(auto it: adj[src]){
-           if(visited[it]==0){
-               if(detectCycleDFS(it,src,adj,visited))return true;
-           }
-           else{
-               if(it!=parent)return true;
-           }
-       }
-       return false;
-    }
+  bool dfs(int node, int parent, vector<int>& visited, vector<int> adj[]){
+      visited[node]=1;
+      for(auto it:adj[node]){
+          if(visited[it]==0){
+              if(dfs(it,node,visited,adj))return true;
+          }
+          else{
+              if(parent!=it)return true;
+          }
+      }
+      return false;
+  }
     // Function to detect cycle in an undirected graph.
-    // bool detectCycleBFS(int src, vector<int> adj[], int visited[]){
-    //     visited[src]=1;
-    //     queue<pair<int,int>> q;
-    //     q.push({src,-1});
-    //     while(!q.empty()){
-    //         int node = q.front().first;
-    //         int parent = q.front().second;
-    //         for(auto it: adj[node]){
-    //             if(visited[it]==0){
-    //                 visited[it]=1;
-    //                 q.push({it,node});
-    //             }
-    //             else{
-    //                 if(parent!=it){
-    //                     return true;
-    //                 }
-    //             }
-    //         }
-    //     }
-    //     return false;
-    // }
     bool isCycle(int V, vector<int> adj[]) {
-    //     // Approach-1
-    //     int visited[V]={0};
-    //     for(int i=0;i<V;i++){
-    //         if(visited[i]==0){
-    //             if(detectCycleBFS(i,adj,visited))return true;
-    //         }
-    //     }
-    //     return false;
-    
-    //Approach-2
-    int visited[V]={0};
-    for(int i=0;i<V;i++){
-        if(visited[i]==0){
-            if(detectCycleDFS(i,-1,adj,visited))return true;
+        // Approach-1
+        vector<int> visited(V,0);
+        for(int i=0;i<V;i++){
+            if(visited[i]==0){
+                if(dfs(i,-1,visited,adj))return true;
+            }
         }
-    }
-    return false;;
+        return false;
     }
 };
 
