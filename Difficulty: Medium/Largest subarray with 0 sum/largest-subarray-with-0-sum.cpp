@@ -11,24 +11,25 @@ using namespace std;
 class Solution {
   public:
     int maxLen(vector<int>& arr, int n) {
-        int maxi=0;
-        int sum=0;
-        unordered_map<int,int> prefixSum;
+        // Approach-1
+        int prefixSum=0;
+        map<int,int> preSumMap;
+        int length = 0;
         for(int i=0;i<n;i++){
-            sum+=arr[i];
-            if(sum==0){
-                maxi = i+1;
+            prefixSum+=arr[i];
+            if(prefixSum==0){
+                length = max(length,i+1);
             }
             else{
-               if(prefixSum.find(sum)!=prefixSum.end()){
-                maxi = max(maxi,i-prefixSum[sum]);
+                if(preSumMap.find(prefixSum)!=preSumMap.end()){
+                length = max(length,i-preSumMap[prefixSum]);
             }
             else{
-                prefixSum[sum]=i;
+                preSumMap[prefixSum]=i;
+                }
             }
         }
-        }
-        return maxi;
+        return length;
     }
 };
 
