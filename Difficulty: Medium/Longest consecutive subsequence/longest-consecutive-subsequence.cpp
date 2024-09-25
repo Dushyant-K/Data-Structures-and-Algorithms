@@ -8,31 +8,62 @@ class Solution{
   public:
     // arr[] : the input array
     // N : size of the array arr[]
-    
+    bool ls(int arr[], int N, int n){
+        for(int i=0;i<N;i++){
+            if(arr[i]==n)return true;
+        }
+        return false;
+    }
     //Function to return length of longest subsequence of consecutive integers.
     int findLongestConseqSubseq(int arr[], int N)
     {
-      if(N==0){
-          return 0;
-      }
-      unordered_set<int> st;
-      for(int i=0;i<N;i++){
-          st.insert(arr[i]);
-      }
-      
-      int largest=1;
-      for(auto it:st){
-          if(st.find(it-1)==st.end()){
-              int count=1;
-              int x=it;
-              while(st.find(x+1)!=st.end()){
-                  count++;
-                  x++;
-              }
-              largest=max(largest,count);
-          }
-      }
-      return largest;
+      //Approach-1
+    //   int maxCount=0;
+    //   for(int i=0;i<N;i++){
+    //       int count=1;
+    //       while(ls(arr,N,arr[i]+count)==true){
+    //           count++;
+    //           maxCount = max(maxCount,count);
+    //       }
+    //   }
+    //   return maxCount;
+    
+    //Approach-2
+    // sort(arr,arr+N);
+    // int lastSmaller =INT_MIN;
+    // int longest=1;
+    // int count=0;
+    // for(int i=0;i<N;i++){
+    //     if(arr[i]-1==lastSmaller){
+    //         count++;
+    //         lastSmaller = arr[i];
+    //       }
+    //       else{
+    //             lastSmaller = arr[i];
+    //           count=1;
+    //       }
+    //       longest = max(longest,count);
+    //      }
+    //      return longest;
+    
+    //Approach-3
+    if(N==0)return 0;
+    set<int> st;
+    int longest=1;
+    for(int i=0;i<N;i++){
+        st.insert(arr[i]);
+    }
+    for(auto it:st){
+        if(st.find(it-1)==st.end()){
+            int count=1;
+            while(st.find(it+1)!=st.end()){
+                it++;
+                count++;
+            }
+            longest = max(longest,count);
+        }
+    }
+    return longest;
     }
 };
 
