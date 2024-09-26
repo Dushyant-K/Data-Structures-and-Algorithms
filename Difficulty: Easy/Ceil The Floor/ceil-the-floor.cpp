@@ -1,68 +1,84 @@
 //{ Driver Code Starts
+// Initial template for C++
 
 #include <bits/stdc++.h>
-
 using namespace std;
 
-pair<int, int> getFloorAndCeil(int arr[], int n, int x);
+
+// } Driver Code Ends
+// User code template
+
+class Solution {
+  public:
+    int getFloor(int x, vector<int> arr){
+        int ans=-1;
+        int n =arr.size();
+        int low=0;
+        int high = n-1;
+        while(low<=high){
+            int mid=(low+high)/2;
+            if(arr[mid]<=x){
+                ans = arr[mid];
+                low = mid+1;
+            }
+            else{
+                high = mid-1;
+            }
+        }
+        return ans;
+    }
+    
+    int getCeil(int x, vector<int> arr){
+        int ans=-1;
+        int n = arr.size();
+        int low=0;
+        int high = n-1;
+        while(low<=high){
+            int mid=(low+high)/2;
+            if(arr[mid]>=x){
+                ans = arr[mid];
+                high = mid-1;
+            }
+            else{
+                low = mid+1;
+            }
+        }
+        return ans;
+    }
+    vector<int> getFloorAndCeil(int x, vector<int> &arr) {
+        // Approach-1
+        vector<int> res;
+        sort(arr.begin(),arr.end());
+        res.push_back(getFloor(x,arr));
+        res.push_back(getCeil(x,arr));
+        return res;
+    }
+};
+
+//{ Driver Code Starts.
 
 int main() {
     int t;
     cin >> t;
+    cin.ignore(); // Ignore the newline character after t
     while (t--) {
-        int n, x;
-        cin >> n >> x;
-        int arr[n];
-        for (int i = 0; i < n; i++) {
-            cin >> arr[i];
+        vector<int> arr;
+        int x;
+        string input;
+        cin >> x;
+        cin.ignore();
+
+        getline(cin, input); // Read the entire line for the array elements
+        stringstream ss(input);
+        int number;
+        while (ss >> number) {
+            arr.push_back(number);
         }
-        auto ans = getFloorAndCeil(arr, n, x);
-        cout << ans.first << " " << ans.second << "\n";
+
+        Solution ob;
+        auto ans = ob.getFloorAndCeil(x, arr);
+        cout << ans[0] << " " << ans[1] << "\n";
     }
     return 0;
 }
-
 // } Driver Code Ends
-
-int flor(int arr[],int n,int x){
-    int low=0;
-    int high = n-1;
-    int ans=-1;
-    while(low<=high){
-        int mid=(low+high)/2;
-        if(arr[mid]<=x){
-            ans=arr[mid];
-            low=mid+1;
-        }
-        else{
-            high=mid-1;
-        }
-    }
-    return ans;
-}
-
-int ceiil(int arr[],int n,int x){
-    int low = 0;
-    int high = n-1;
-    int ans=-1;
-    while(low<=high){
-        int mid=(low+high)/2;
-        if(arr[mid]>=x){
-            ans= arr[mid];
-            high=mid-1;
-        }
-        else{
-            low=mid+1;
-        }
-    }
-    return ans;
-}
-
-
-pair<int, int> getFloorAndCeil(int arr[], int n, int x) {
-    sort(arr,arr+n);
-    int f = flor(arr, n, x);
-    int c = ceiil(arr,n,x);
-    
-    return {f,c};
-}
