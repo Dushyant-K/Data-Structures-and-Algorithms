@@ -35,8 +35,8 @@ int count=0;
         int count=0;
         int right = mid+1;
         for(int i=low;i<=mid;i++){
-            while(right<=high && nums[i]>(2*nums[right])){
-                // count+=(mid-low+1);
+            while(right<=high && nums[i]>((long long)2*nums[right])){
+                // count+=(mid-low+1);(Code added by me)
                 right++;
             }
             count+=(right-(mid+1));
