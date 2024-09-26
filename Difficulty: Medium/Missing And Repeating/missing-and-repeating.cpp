@@ -3,24 +3,49 @@
 
 using namespace std;
 
+
 // } Driver Code Ends
-class Solution{
-public:
-    vector<int> findTwoElement(vector<int> arr, int n) {
-        int hasharray[n+1]={0};
+class Solution {
+  public:
+    vector<int> findTwoElement(vector<int>& arr) {
+        // bucket Method
+        int xor1=0;
+        int n = arr.size();
         for(int i=0;i<n;i++){
-            hasharray[arr[i]]++;
+            xor1=xor1^arr[i];
+            xor1 = xor1^(i+1);
         }
-        vector<int> ans;
-        int repeating,missing;
+        int bitNo=0;
+        while(1){
+            if((xor1&(1<<bitNo))!=0){
+                break;
+            }
+            bitNo++;
+        }
+        int zero=0;
+        int one=0;
+        for(int i=0;i<n;i++){
+            if(arr[i]&(1<<bitNo)){
+                one= one^arr[i];
+            }
+            else{
+                zero=zero^arr[i];
+            }
+        }
         for(int i=1;i<=n;i++){
-            if(hasharray[i]==2)repeating = i;
-            
-            else if(hasharray[i]==0)missing=i;
+            if(i&(1<<bitNo)){
+                one = one^i;
+            }
+            else{
+                zero = zero^i;
+            }
         }
-        ans.push_back(repeating);
-        ans.push_back(missing);
-        return ans;
+        int count=0;
+        for(int i=0;i<n;i++){
+            if(one==arr[i])count++;
+        }
+        if(count==2)return {one,zero};
+        return {zero,one};
     }
 };
 
@@ -37,7 +62,7 @@ int main() {
             cin >> a[i];
         }
         Solution ob;
-        auto ans = ob.findTwoElement(a, n);
+        auto ans = ob.findTwoElement(a);
         cout << ans[0] << " " << ans[1] << "\n";
     }
     return 0;
