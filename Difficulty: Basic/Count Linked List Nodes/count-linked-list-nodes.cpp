@@ -28,13 +28,14 @@ class Solution {
     // Function to count nodes of a linked list.
     int getCount(struct Node* head) {
 
-        Node* mover = head;
-        int count=0;
-        while(mover){
-            mover = mover->next;
-            count++;
+        // Approach-1
+        if(head==nullptr)return 0;
+        int length=1;
+        while(head->next!=nullptr){
+            length++;
+            head=head->next;
         }
-        return count;
+        return length;
     }
 };
 
