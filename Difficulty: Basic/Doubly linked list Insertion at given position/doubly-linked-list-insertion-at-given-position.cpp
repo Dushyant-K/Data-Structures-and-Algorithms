@@ -3,87 +3,20 @@
 using namespace std;
 
 /* a Node of the doubly linked list */
-struct Node
-{
-  int data;
-  struct Node *next;
-  struct Node *prev;
-  Node(int x)
-  {
-      data = x;
-      next = prev = NULL;
-  }
+struct Node {
+    int data;
+    struct Node *next;
+    struct Node *prev;
+
+    Node(int x) {
+        data = x;
+        next = prev = NULL;
+    }
 };
 
-void addNode(Node *head, int pos, int data);
 
-Node *insert(Node *head, int x)
-{
-    if (head == NULL)
-    {
-        return new Node(x);
-    }
-    Node *n = new Node(x);
-    
-    head->next = n;
-    n->prev = head;
-    head = n;
-    return head;
-}
-
-void printList(Node *head)
-{
-  // The purpose of below two loops is
-  // to test the created DLL
-  Node *temp=head;
-  if (temp != NULL) {
-    int ct1=0,ct2=0;
-  while (temp->next!=NULL)
-    temp=temp->next,ct1++;
-  while (temp->prev!=NULL)
-   temp = temp->prev,ct2++;
-   if(ct1!=ct2){
-       cout<<-1<<"\n";
-       return;
-   }
-  }
-  while (temp != NULL)
-  {
-      printf("%d ",temp->data);
-      temp=temp->next;
-  }
-  
-  cout << endl;
-}
-
-int main()
-{
-  int t;
-  scanf("%d",&t);
-  while(t--)
-  {
-  Node *head = NULL; 
-  Node *root = NULL;
-  int n;
-  scanf("%d",&n);
-  for(int i=0;i<n;i++){
-     int x;
-     scanf("%d",&x);
-     head = insert(head, x);
-     if(root==NULL) root = head;
-  }     
-  head = root;
-  int pos,data;
-  cin>>pos>>data;
-  addNode(head, pos, data);
-  printList(head);
-  }
-  return 0;
-}
 // } Driver Code Ends
-
-
-/* a Node of the doubly linked list 
+/* a Node of the doubly linked list
 struct Node
 {
   int data;
@@ -92,30 +25,110 @@ struct Node
   Node(int x) { data = x; next = prev = NULL; }
 }; */
 
+// Function to insert a new node at given position in doubly linked list.
+class Solution {
+  public:
+    // Function to insert a new node at given position in doubly linked list.
+    Node *addNode(Node *head, int pos, int data) {
+        // Approach-1
+        if(head==nullptr)return new Node(data);
+        Node* temp=head;
+        int count=0;
+        while(temp!=nullptr&&count!=pos){
+            count++;
+            temp = temp->next;
+        }
+        if(temp==nullptr)return head;
+        if(temp->next!=nullptr){
+        Node* newNode = new Node(data);
+        Node* node = temp->next;
+        temp->next = newNode;
+        node->prev = newNode;
+        newNode->next = node;
+        newNode->prev = temp;
+        }
+        else{
+            Node* newNode = new Node(data);
+            temp->next = newNode;
+            newNode->prev=temp;
+        }
+        
+        return head;
+    }
+};
 
-//Function to insert a new node at given position in doubly linked list.
-void addNode(Node *head, int k, int val)
-{
-     Node* mover = head;
-     int count=0;
-     while(mover!=nullptr){
-         if(count==k){
-             break;
-         }
-         mover = mover->next;
-         count++;
-     }
-     if(mover->next==nullptr){
-         Node* temp = new Node(val);
-         mover->next = temp;
-         temp->prev = mover;
-         return;
-     }
-     Node* temp = new Node(val);
-     Node* front = mover->next;
-     temp->prev = mover;
-     temp->next = front;
-     mover->next = temp;
-     front->prev = temp;
-    return;
+//{ Driver Code Starts.
+
+Node *insert(Node *head, int x) {
+    if (head == NULL) {
+        return new Node(x);
+    }
+    Node *n = new Node(x);
+
+    head->next = n;
+    n->prev = head;
+    head = n;
+    return head;
 }
+
+void printList(Node *head) {
+    // The purpose of below two loops is
+    // to test the created DLL
+    Node *temp = head;
+    if (temp != NULL) {
+        int ct1 = 0, ct2 = 0;
+        while (temp->next != NULL)
+            temp = temp->next, ct1++;
+        while (temp->prev != NULL)
+            temp = temp->prev, ct2++;
+        if (ct1 != ct2) {
+            cout << -1 << "\n";
+            return;
+        }
+    }
+    while (temp != NULL) {
+        printf("%d ", temp->data);
+        temp = temp->next;
+    }
+
+    cout << endl;
+}
+
+int main() {
+
+    int t;
+    cin >> t;
+    cin.ignore(); // Ignore newline after reading T to use getline properly
+
+    while (t--) {
+        Node *head = NULL;
+        Node *root = NULL;
+        vector<int> arr;
+        string input;
+        getline(cin, input);    // Read the entire line as input
+        stringstream ss(input); // Use stringstream to split the input into integers
+        int number;
+        while (ss >> number) {
+            arr.push_back(number); // Add each number to the vector
+        }
+        if (arr.empty()) {
+            return NULL; // Return NULL if the vector is empty
+        }
+        int n = arr.size();
+        for (int i = 0; i < n; i++) {
+            int x = arr[i];
+            head = insert(head, x);
+            if (root == NULL)
+                root = head;
+        }
+        head = root;
+        int pos, data;
+        cin >> pos >> data;
+        cin.ignore();
+        Solution ob;
+        head = ob.addNode(head, pos, data);
+        printList(head);
+    }
+    return 0;
+}
+// } Driver Code Ends
