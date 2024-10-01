@@ -1,8 +1,8 @@
 class Solution {
-public:
-    map<char, int> mpp;  
+public:  
     string frequencySort(string s) {
         //Approach-1
+        map<char, int> mpp;
         // Build the frequency map
         for (char c : s) {
             mpp[c]++;
