@@ -43,44 +43,29 @@ struct Node
 
 class Solution {
   public:
-  Node* reverseLL(Node* head){
-      Node* temp = head;
-      Node* prev = nullptr;
-      while(temp!=nullptr){
-          head = head->next;
-          temp->next = prev;
-          prev = temp;
-          temp = head;
-      }
-      return prev;
-  }
+    int helper(Node* head){
+        if(head==nullptr)return 1;
+        
+        int carry = helper(head->next);
+        head->data = head->data+carry;
+        if(head->data<10){
+            return 0;
+        }
+        else{
+            head->data=0;
+            return 1;
+        }
+        return -1;
+    }
     Node* addOne(Node* head) {
-        head = reverseLL(head);
-        Node* temp =head;
-        int carry =1;
-        while(temp!=nullptr){
-            int value = temp->data+1;
-            if(value<10){
-                temp->data = value;
-                carry =0;
-                break;
-            }
-            else{
-                temp->data = 0;
-                carry =1;
-            }
-            temp = temp->next;
-        }
+        // Your Code here
+        // return head of list after adding one
+        int carry = helper(head);
+        if(carry==0)return head;
         
-        if(carry==1){
-            Node* newNode = new Node(1);
-            head = reverseLL(head);
-            newNode->next = head;
-            return newNode;
-        }
-            head = reverseLL(head);
-            return head;
-        
+        Node* newHead = new Node(1);
+        newHead->next=head;
+        return newHead;
     }
 };
 
