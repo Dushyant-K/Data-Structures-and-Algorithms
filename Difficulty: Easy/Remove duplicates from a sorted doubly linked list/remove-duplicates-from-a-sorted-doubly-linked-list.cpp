@@ -103,24 +103,34 @@ public:
 
     Node * removeDuplicates(struct Node *head)
     {
-        Node* temp = head;
-        while(temp!=nullptr&&temp->next!=nullptr){
-            Node* nextNode = temp->next;
-            if(temp->data==nextNode->data){
-                if(nextNode->next!=nullptr){
-                    temp->next = nextNode->next;
-                    nextNode->next->prev = temp;
-                    free(nextNode);
+        //Approach-1
+        // Start from the head of the list
+        Node* current = head;
+
+        // Traverse through the list
+        while (current != NULL && current->next != NULL) {
+            // If the current node's data matches the next node's data
+            if (current->data == current->next->data) {
+                // Store the next node (duplicate node)
+                Node* duplicate = current->next;
+
+                // Bypass the duplicate node
+                current->next = duplicate->next;
+
+                // If the duplicate is not the last node, adjust the previous link of the next node
+                if (duplicate->next != NULL) {
+                    duplicate->next->prev = current;
                 }
-                else{
-                    temp->next = nullptr;
-                    free(nextNode);
-                }
-            }
-            else{
-                temp = temp->next;
+
+                // Free the duplicate node
+                free(duplicate);
+            } else {
+                // Move to the next node if no duplicate was found
+                current = current->next;
             }
         }
+
+        // Return the modified list
         return head;
     }
 };
