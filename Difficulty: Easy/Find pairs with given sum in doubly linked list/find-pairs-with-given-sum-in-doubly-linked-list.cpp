@@ -33,48 +33,32 @@ public:
 class Solution
 {
 public:
+    Node* findTail(Node* head){
+        while(head->next!=nullptr){
+            head=head->next;
+        }
+        return head;
+    }
     vector<pair<int, int>> findPairsWithGivenSum(Node *head, int target)
     {
-        //Approach-1
-    //   vector<pair<int,int>> pairs;
-    //   Node* temp1 = head;
-    //   while(temp1->next!=nullptr){
-    //       Node* temp2 = temp1->next;
-    //       while(temp2!=nullptr&&temp1->data+temp2->data<=target){
-    //           if(temp1->data+temp2->data==target){
-    //               pairs.push_back({temp1->data,temp2->data});
-    //           }
-    //           temp2 = temp2->next;
-    //       }
-    //       temp1 = temp1->next;
-    //   }
-    //   return pairs;
-    
-    //Approach-2
-    vector<pair<int,int>> ans;
-    if(head==nullptr)return ans;
-    
-    
-    Node* left = head;
-    Node* right = head;
-    while(right->next!=nullptr){
-        right = right->next;
-    }
-    
-    while(left->data<right->data){
-        if((left->data+right->data)==target){
-            ans.push_back({left->data,right->data});
-            left = left->next;
-            right = right->prev;
+        // Approach-1
+        Node* left = head;
+        Node* right  = findTail(head);
+        vector<pair<int,int>> ans;
+        while(left->data<right->data){
+            if(left->data+right->data==target){
+                ans.push_back(make_pair(left->data,right->data));
+                left=left->next;
+                right=right->prev;
+            }
+            else if(left->data+right->data<target){
+                left=left->next;
+            }
+            else{
+                right = right->prev;
+            }
         }
-        else if((left->data+right->data)<target){
-            left = left->next;
-        }
-        else{
-            right = right->prev;
-        }
-    }
-    return ans;
+        return ans;
     }
 };
 
