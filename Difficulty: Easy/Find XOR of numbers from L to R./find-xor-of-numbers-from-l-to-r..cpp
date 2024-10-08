@@ -9,19 +9,16 @@ using namespace std;
 
 class Solution {
   public:
-    int findXOR1TON(int n){
-        if(n%4==1)
-        return 1;
-        else if(n%4==2)
-        return (n+1);
-        else if(n%4==3)
-        return 0;
-        else
-        return n;
+    int helper(int n){
+        if(n%4==1)return 1;
+        else if(n%4==2)return (n+1);
+        else if(n%4==3)return 0;
+        else return n;
     }
     int findXOR(int l, int r) {
-        int xor1 = findXOR1TON(l-1);
-        int xor2 = findXOR1TON(r);
+        // Approach-1
+        int xor1 = helper(l-1);
+        int xor2 = helper(r);
         return (xor1^xor2);
     }
 };
