@@ -7,13 +7,12 @@ using namespace std;
 class Solution {
   public:
     int setBit(int n) {
-        for(int i=0;i<=31;i++){
-            if((n & (1<<i))==0){
-                n = n | (1<<i);
-                break;
-            }
-        }
-        return n;
+        
+    // If all bits are set, return n as is
+    if (n == -1) return n;
+    
+    // Set the rightmost unset bit
+    return n | (n + 1);
     }
 };
 
