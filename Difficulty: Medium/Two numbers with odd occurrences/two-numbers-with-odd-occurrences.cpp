@@ -9,21 +9,21 @@ class Solution{
     public:
     vector<long long int> twoOddNum(long long int Arr[], long long int N)  
     {
-        //Approach-1
-        // map<long long int,int> mpp;
-        // for(int i=0;i<N;i++){
-        //     mpp[Arr[i]]++;
-        // }
-        // vector<long long int> ans;
-        // for(auto it: mpp){
-        //     if((it.second)%2==1)
-        //     ans.push_back(it.first);
-        // }
-        // sort(ans.begin(),ans.end(),greater<int>());
-        // return ans;
-        
-        //Approach-2
-        
+        // Approach-1
+        int xor1=0;
+        for(int i=0;i<N;i++){
+            xor1=xor1^Arr[i];
+        }
+        int rightmost=0;
+        rightmost = xor1 & ~(xor1 - 1);
+        int xorZero=0;
+        int xorOne=0;
+        for(int i=0;i<N;i++){
+            if(Arr[i]&(rightmost))xorOne=xorOne^Arr[i];
+            else xorZero=xorZero^Arr[i];
+        }
+        if(xorOne>xorZero)return {xorOne,xorZero};
+        return {xorZero,xorOne};
     }
 };
 
