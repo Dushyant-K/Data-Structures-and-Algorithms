@@ -32,6 +32,7 @@ public:
 */
 
 void MyStack ::push(int x) {
+    // Approach-1
     if(top>=999){
         cout<<"Stack is full";
         return;
@@ -42,9 +43,8 @@ void MyStack ::push(int x) {
 
 // Function to remove an item from top of the stack.
 int MyStack ::pop() {
-    if(top==-1){
-        return -1;
-    }
+    // Approach-1
+    if(top==-1)return -1;
     int el = arr[top];
     top--;
     return el;
