@@ -69,25 +69,21 @@ public :
 //Function to push an element x in a queue.
 void MyQueue :: push(int x)
 {
-    arr[rear] = x;
-    rear++;
+        // Approach-1
+        arr[rear]=x;
+        rear = (rear+1)%(100005);
 }
 
 //Function to pop an element from queue and return that element.
 int MyQueue :: pop()
 {
-        if (front == rear) {
-        // If the queue is empty, return -1.
-        return -1;
-    }
-    // Get the element from the front of the queue.
-    int poppedValue = arr[front];
-    front++;
+        // Approach-1
+        if(front == rear) 
+        return -1; 
+    
+    int poppedElement = arr[front];
 
-    // Reset pointers if the queue becomes empty.
-    if (front == rear) {
-        front = 0;
-        rear = 0;
-    }
-    return poppedValue;      
+    front = (front + 1) % 100005;
+
+    return poppedElement;
 }
