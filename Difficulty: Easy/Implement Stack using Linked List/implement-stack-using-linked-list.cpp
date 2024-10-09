@@ -20,17 +20,20 @@ class MyStack {
 
   public:
     void push(int x) {
-       StackNode *temp = new StackNode(x);
-       temp->next = top;
-       top = temp;
+        // Approach-1
+        StackNode* temp= new StackNode(x);
+        temp->next=top;
+        top=temp;
     }
 
     int pop() {
+        // Approach-1
         if(top==nullptr)return -1;
-        StackNode* temp = top;
-        top = top->next;
-        return (temp->data);
-        // free(temp);
+        StackNode* temp=top;
+        top=top->next;
+        int el=temp->data;
+        free(temp);
+        return el;
     }
 
     MyStack() { top = NULL; }
