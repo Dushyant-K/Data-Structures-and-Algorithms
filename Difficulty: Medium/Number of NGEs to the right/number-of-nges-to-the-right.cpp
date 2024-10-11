@@ -9,20 +9,27 @@ using namespace std;
 
 class Solution{
 public:
-    int countNGE(vector<int> &arr, int idx){
-        int count=0;
-        for(int i=idx+1;i<=arr.size()-1;i++){
-            if(arr[idx]<arr[i])count++;
-        }
-        return count;
-    }
+
     vector<int> count_NGE(int n, vector<int> &arr, int queries, vector<int> &indices){
-        vector<int> ans;
-        for(int i=0;i<queries;i++){
-           int count = countNGE(arr,indices[i]);
-           ans.push_back(count);
+        //Approach-1
+        int nge[n];
+        stack<int> st;
+        for(int i=0;i<=n-1;i++){
+            int count=0;
+            for(int j=i+1;j<=n-1;j++){
+                if(arr[i]<arr[j])count++;
+            }
+            nge[i]=count;
         }
-       return ans;
+        vector<int> ans;
+        int i=0;
+        while(queries>0){
+            ans.push_back(nge[indices[i]]);
+            i++;
+            queries--;
+        }
+        return ans;
+       
     }
 
 };
