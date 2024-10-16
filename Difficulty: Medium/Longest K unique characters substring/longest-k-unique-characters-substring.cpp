@@ -10,34 +10,25 @@ using namespace std;
 class Solution{
   public:
     int longestKSubstr(string s, int k) {
-        int left = 0;
-        int right = 0;
-        int maxLength = -1; // Use -1 as default, if no such substring exists
-        map<char, int> mpp;
-
-        while (right < s.length()) {
-            // Add current character to the map
-            mpp[s[right]]++;
-            
-            // If the size of map (unique characters) exceeds k, shrink the window from the left
-            while (mpp.size() > k) {
-                mpp[s[left]]--;
-                if (mpp[s[left]] == 0) {
-                    mpp.erase(s[left]);
-                }
-                left++;
-            }
-
-            // If the number of unique characters is exactly k, update the maximum length
-            if (mpp.size() == k) {
-                maxLength = max(maxLength, right - left + 1);
-            }
-
-            // Move to the next character
-            right++;
+    //Approach-1
+    int left=0;
+    int right=0;
+    int n  =s.length();
+    int maxLength=-1;
+    map<char,int> mpp;
+    while(right<n){
+        mpp[s[right]]++;
+        while(mpp.size()>k){
+            mpp[s[left]]--;
+            if(mpp[s[left]]==0)mpp.erase(s[left]);
+            left++;
         }
-
-        return maxLength;
+        if(mpp.size()==k){
+            maxLength = max(maxLength,right-left+1);
+        }
+        right++;
+    }
+    return maxLength;
     }
 };
 
