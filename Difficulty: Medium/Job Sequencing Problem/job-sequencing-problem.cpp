@@ -26,45 +26,36 @@ struct Job
 class Solution 
 {
     public:
-    // Comparator function to sort jobs according to profit in descending order
-    static bool comparator(Job job1, Job job2) {
-        return job1.profit > job2.profit;
+    static bool comparator(Job job1, Job job2){
+        if(job1.profit>job2.profit)return true;
+        else if(job1.profit<job2.profit)return false;
+        else return(job1.id<job2.id);
     }
-
-    // Function to find the maximum profit and the number of jobs done.
+    //Function to find the maximum profit and the number of jobs done.
     vector<int> JobScheduling(Job arr[], int n) 
     { 
-        // Sort the jobs based on their profits in descending order
-        sort(arr, arr + n, comparator);
-
-        // Find the maximum deadline
-        int maxDeadline = 0;
-        for (int i = 0; i < n; i++) {
-            maxDeadline = max(maxDeadline, arr[i].dead);
+        // Approach-1
+        sort(arr,arr+n,comparator);
+        int maxDeadline=0;
+        for(int i=0;i<n;i++){
+            maxDeadline = max(maxDeadline,arr[i].dead);
         }
-
-        // Create an array to keep track of free time slots
-        vector<int> slot(maxDeadline + 1, -1);
-
-        int count = 0; // To store the number of jobs done
-        int totalProfit = 0; // To store the total profit
-
-        // Iterate through all jobs
-        for (int i = 0; i < n; i++) {
-            // Find a free slot for this job (starting from the last possible slot)
-            for (int j = arr[i].dead; j > 0; j--) {
-                if (slot[j] == -1) {
-                    slot[j] = arr[i].id; // Assign job id to this slot
+        vector<int> slot(maxDeadline+1,-1);
+        slot[0]=0;
+        int count=0;
+        int totalProfit=0;
+        for(int i=0;i<n;i++){
+            for(int j=arr[i].dead;j>=0;j--){
+                if(slot[j]==-1){
                     count++;
-                    totalProfit += arr[i].profit;
-                    break; // Move to the next job
+                    totalProfit+=arr[i].profit;
+                    slot[j]=arr[i].id;
+                    break;
                 }
             }
         }
-
-        // Return the total number of jobs done and the total profit
-        return {count, totalProfit};
-    }
+        return {count,totalProfit};
+    } 
 };
 
 //{ Driver Code Starts.
