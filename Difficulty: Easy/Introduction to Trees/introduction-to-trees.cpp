@@ -13,6 +13,7 @@ using namespace std;
 class Solution {
   public:
     int countNodes(int i) {
+        // Approach-1
         return pow(2,i-1);
     }
 };
