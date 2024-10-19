@@ -97,34 +97,25 @@ struct Node {
 class Solution{
     public:
     vector<int> postOrder(Node* node) {
-        //Approach-1(Using a single stack)
-         vector<int> postorderTraversal;
-        if(node==nullptr)return postorderTraversal;
-        stack<Node*> st;
-        Node* curr = node;
-        while(!(st.empty())||(curr!=nullptr)){
-            if(curr!=nullptr){
-                st.push(curr);
-                curr= curr->left;
-            }
-            else{
-                Node* temp = st.top()->right;
-                if(temp==nullptr){
-                    temp = st.top();
-                    st.pop();
-                    postorderTraversal.push_back(temp->data);
-                    while(!st.empty()&&temp==st.top()->right){
-                    temp = st.top();
-                    st.pop();
-                    postorderTraversal.push_back(temp->data);
-                    }
-                }
-                else{
-                        curr=temp;
-                    }
-            }
+        // Approach-1
+        vector<int> postOrder;
+        stack<Node*> st1;
+        stack<Node*> st2;
+        st1.push(node);
+        while(!st1.empty()){
+            Node* temp = st1.top();
+            st1.pop();
+            st2.push(temp);
+            
+            if(temp->left)st1.push(temp->left);
+            if(temp->right)st1.push(temp->right);
         }
-        return postorderTraversal;
+        
+        while(!st2.empty()){
+            postOrder.push_back(st2.top()->data);
+            st2.pop();
+        }
+        return postOrder;
     }
 };
 
