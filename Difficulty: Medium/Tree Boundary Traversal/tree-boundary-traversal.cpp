@@ -106,18 +106,18 @@ struct Node
 class Solution {
 public:
     bool isLeaf(Node* root){
-        if((root->left!=nullptr)||(root->right!=nullptr))return false;
-        return true;
+        if(root->left==nullptr&&root->right==nullptr)return true;
+        return false;
     }
     void addLeftBoundary(Node* root, vector<int>& res){
         Node* curr = root->left;
         while(curr!=nullptr){
             if(!isLeaf(curr))res.push_back(curr->data);
             if(curr->left!=nullptr){
-                curr = curr->left;
+                curr=curr->left;
             }
             else{
-                curr = curr->right;
+                curr=curr->right;
             }
         }
     }
@@ -132,28 +132,28 @@ public:
         addLeaves(root->right,res);
     }
     void addRightBoundary(Node* root, vector<int>& res){
-        Node* node = root->right;
-        stack<int> st;
-        while(node!=nullptr){
-            if(!(isLeaf(node)))st.push(node->data);
-            if(node->right!=nullptr){
-                node = node->right;
+        Node* curr = root->right;
+        vector<int> temp;
+        while(curr!=nullptr){
+            if(!isLeaf(curr))temp.push_back(curr->data);
+            if(curr->right!=nullptr){
+                curr=curr->right;
             }
             else{
-                node = node->left;
+                curr=curr->left;
             }
         }
-        while (!st.empty()) {
-            res.push_back(st.top());
-            st.pop();
+        for(int i=temp.size()-1;i>=0;i--){
+            res.push_back(temp[i]);
         }
         
     }
     vector <int> boundary(Node *root)
     {
+        //Approach-1
         vector<int> boundaryTraversal;
         if(root==nullptr)return boundaryTraversal;
-        if(!isLeaf(root))boundaryTraversal.push_back(root->data);
+        if(!isLeaf(root)) boundaryTraversal.push_back(root->data);
         addLeftBoundary(root,boundaryTraversal);
         addLeaves(root,boundaryTraversal);
         addRightBoundary(root,boundaryTraversal);
