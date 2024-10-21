@@ -12,44 +12,30 @@
 class Solution {
 public:
     vector<vector<int>> verticalTraversal(TreeNode* root) {
-        // Map to store nodes sorted by (column, row) -> set of node values
-        map<int, map<int, multiset<int>>> nodes;
-        
-        // Queue for BFS: stores the node along with its (column, row) information
-        queue<pair<TreeNode*, pair<int, int>>> todo;
-        todo.push({root, {0, 0}});  // Start with the root at (0, 0)
-        
-        // BFS traversal
-        while (!todo.empty()) {
-            auto p = todo.front();
-            todo.pop();
-            
+        //Approach-1
+        map<int,map<int,multiset<int>>> nodes;
+        queue<pair<TreeNode*,pair<int,int>>> q;
+        q.push({root,{0,0}});
+        while(!q.empty()){
+            auto p = q.front();
+            q.pop();
             TreeNode* node = p.first;
-            int col = p.second.first;  // Horizontal distance (column)
-            int row = p.second.second; // Vertical distance (row)
-            
-            // Insert the node value into the map at the (col, row) position
+            int row = p.second.first;
+            int col = p.second.second;
             nodes[col][row].insert(node->val);
-            
-            // Traverse the left and right children
-            if (node->left) {
-                todo.push({node->left, {col - 1, row + 1}});
-            }
-            if (node->right) {
-                todo.push({node->right, {col + 1, row + 1}});
-            }
+
+            if(node->left)q.push({node->left,{row+1,col-1}});
+            if(node->right)q.push({node->right,{row+1,col+1}});
         }
-        
-        // Prepare the result by extracting nodes from the map
-        vector<vector<int>> result;
-        for (auto& p : nodes) {
+
+       vector<vector<int>> result;
+        for (auto p : nodes) {
             vector<int> col;
-            for (auto& q : p.second) {
+            for (auto q : p.second) {
                 col.insert(col.end(), q.second.begin(), q.second.end());
             }
             result.push_back(col);
         }
-        
         return result;
     }
 };
