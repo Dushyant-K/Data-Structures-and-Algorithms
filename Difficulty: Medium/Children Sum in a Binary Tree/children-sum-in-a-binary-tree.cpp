@@ -103,68 +103,26 @@ struct Node
 
 class Solution{
     public:
-    
-    bool isLeaf(Node* root) {
-        return (root != nullptr && root->left == nullptr && root->right == nullptr);
-    }
-
-    // Function to check whether all nodes of a tree have the value
-    // equal to the sum of their child nodes.
-    bool isSumProperty2(Node *root) {
-        // Base case: if the node is null or it is a leaf node, return true.
-        if (root == nullptr || isLeaf(root)) {
-            return true;
-        }
-
-        // Initialize the sum of children as 0.
-        int childSum = 0;
-
-        // Add the value of the left child if it exists.
-        if (root->left) {
-            childSum += root->left->data;
-        }
-
-        // Add the value of the right child if it exists.
-        if (root->right) {
-            childSum += root->right->data;
-        }
-
-        // Check if the current node's data is equal to the sum of its children.
-        // Also, recursively check the left and right subtrees.
-        return (root->data == childSum) &&
-               isSumProperty(root->left) &&
-               isSumProperty(root->right);
-    }
     //Function to check whether all nodes of a tree have the value 
     //equal to the sum of their child nodes.
+    bool isLeaf(Node* root){
+        if(root->left==nullptr&&root->right==nullptr)return true;
+        return false;
+    }
+    bool isSumProperty2(Node* root){
+        if(root==nullptr||isLeaf(root))return true;
+        
+        int childSum=0;
+        
+        if(root->left)childSum+=root->left->data;
+        if(root->right)childSum+=root->right->data;
+        
+        return (root->data==childSum)&&(isSumProperty2(root->left))&&(isSumProperty2(root->right));
+    }
     int isSumProperty(Node *root)
     {
-     // Approach-1(This code is for converting any tree to a tree having child sum property.)
-    //  if(root==nullptr)return 0;
-     
-    //  int child;
-     
-    //  if(root->left)child+=root->left->data;
-    //  if(root->right)child+=root->right->data;
-     
-    //  if(child>=root->data){
-    //      root->data = child;
-    //  }else{
-    //      if(root->left)root->left->data = root->data;
-    //      if(root->right)root->right->data = root->data;
-    //  }
-     
-    //  Node* node1 = isSumProperty(root->left);
-    //  Node* node2 = isSumProperty(root->right);
-     
-    //  int total=0;
-     
-    //  if(node1)total+=node1->data;
-    //  if(node2)total+=node2->data;
-    //  root->data = total;
-    
-    //Approach-2
-    return isSumProperty2(root)?1:0;
+     // Approach-1
+     return isSumProperty2(root)?1:0;
     }
 };
 
