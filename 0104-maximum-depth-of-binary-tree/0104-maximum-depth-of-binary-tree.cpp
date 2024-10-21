@@ -11,15 +11,12 @@
  */
 class Solution {
 public:
-    int recursiveMaxDepth(TreeNode* root, int left, int right){
+    int maxDepth(TreeNode* root) {
         if(root==nullptr)return 0;
 
-        left = recursiveMaxDepth(root->left,left,right);
-        right = recursiveMaxDepth(root->right,left,right);
-        return (1+max(left,right));
-    }
-    int maxDepth(TreeNode* root) {
-        int height = recursiveMaxDepth(root,0,0);
-        return height;
+        int lh = maxDepth(root->left);
+        int rh = maxDepth(root->right);
+
+        return (max(lh,rh)+1);
     }
 };
