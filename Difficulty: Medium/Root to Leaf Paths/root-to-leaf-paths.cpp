@@ -145,32 +145,31 @@ struct Node
 class Solution {
   public:
     bool isLeaf(Node* root){
-        if(root->left||root->right)return false;
+        if(root->left!=nullptr||root->right!=nullptr)return false;
         return true;
     }
-    void pathToLeafNodes(Node* root, vector<vector<int>>& res, vector<int>& paths){
-        if(root==nullptr)return;
-        
-        
-        paths.push_back(root->data);
+    void findPaths(Node* root, vector<int>& path, vector<vector<int>>& res){
+        if(root==nullptr){
+           return;
+        }
+        path.push_back(root->data);
         
         if(isLeaf(root)){
-            res.push_back(paths);
+            res.push_back(path);
         }
-        else
-        {
-        pathToLeafNodes(root->left,res,paths);
-        pathToLeafNodes(root->right,res,paths);
+        else{
+        findPaths(root->left,path,res);
+        findPaths(root->right,path,res);
         }
-        
-        paths.pop_back();
-
+        path.pop_back();
+        return;
     }
     vector<vector<int>> Paths(Node* root) {
+        // Approach-1
         vector<vector<int>> res;
         vector<int> path;
         if(root==nullptr)return res;
-        pathToLeafNodes(root,res,path);
+        findPaths(root,path,res);
         return res;
     }
 };
