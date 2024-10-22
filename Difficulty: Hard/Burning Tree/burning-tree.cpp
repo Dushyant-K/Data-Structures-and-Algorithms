@@ -96,79 +96,65 @@ struct Node {
 */
 class Solution {
   public:
-    void mapChild(Node* root, map<Node*,Node*>& parent_track){
-        queue<Node*> q;
-        q.push(root);
-         while (!q.empty()) {
-            Node* node = q.front();
-            q.pop();
-
-            // Map the left child
-            if (node->left) {
-                parent_track[node->left] = node;
-                q.push(node->left);
-            }
-
-            // Map the right child
-            if (node->right) {
-                parent_track[node->right] = node;
-                q.push(node->right);
-            }
-        }
+    void markParents(Node* root, unordered_map<Node*,Node*>& parent_track){
+        if(root==nullptr)return;
         
+        if(root->left)parent_track[root->left]=root;
+        if(root->right)parent_track[root->right]=root;
+        
+        markParents(root->left,parent_track);
+        markParents(root->right,parent_track);
     }
     Node* findNode(Node* root, int target){
-        if (root == nullptr) return nullptr;
-        if (root->data == target) return root;
-
-        Node* leftResult = findNode(root->left, target);
-        if (leftResult != nullptr) return leftResult;
-
-        return findNode(root->right, target);
+        if(root==nullptr)return root;
+        
+        if(root->data==target)return root;
+        
+        Node* node1 = findNode(root->left,target);
+        Node* node2 = findNode(root->right,target);
+        
+        if(node1==nullptr)return node2;
+        return node1;
     }
     int minTime(Node* root, int target) 
     {
         // Approach-1
-        if(root==nullptr)return 0;
-        map<Node*,Node*> parent_track;
-        queue<Node*> q;
-        mapChild(root,parent_track);
-        
-        
+        unordered_map<Node*,Node*> parent_track;
+        markParents(root,parent_track);
         Node* targetNode = findNode(root,target);
         if(targetNode==nullptr)return 0;
+        unordered_map<Node*,bool> visited;
+        queue<Node*> q;
         q.push(targetNode);
-        map<Node*,bool> visited;
         visited[targetNode]=true;
-        int burnTime=0;
-        //Now the traversal begins
+        int timeToBurn=0;
         while(!q.empty()){
-            bool burnedAny = false;
+            bool burnedAny=false;
             int size = q.size();
             for(int i=0;i<size;i++){
                 Node* node = q.front();
                 q.pop();
-                if((node->left)&&!visited[node->left]){
-                    q.push(node->left);
+                if((node->left)&&(!visited[node->left])){
                     visited[node->left]=true;
+                    q.push(node->left);
                     burnedAny=true;
                 }
                 if((node->right)&&(!visited[node->right])){
-                    q.push(node->right);
                     visited[node->right]=true;
+                    q.push(node->right);
                     burnedAny=true;
                 }
-                if(parent_track[node]&&!visited[parent_track[node]]){
-                    q.push(parent_track[node]);
+                if((parent_track[node])&&(!visited[parent_track[node]])){
                     visited[parent_track[node]]=true;
+                    q.push(parent_track[node]);
                     burnedAny=true;
                 }
             }
             if(burnedAny){
-             burnTime++;
-            }
+            timeToBurn++;
+           }
         }
-        return burnTime;
+        return timeToBurn;
     }
 };
 
