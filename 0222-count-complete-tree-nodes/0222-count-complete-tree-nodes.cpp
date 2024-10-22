@@ -11,37 +11,17 @@
  */
 class Solution {
 public:
-    int findLH(TreeNode* root){
-        int height=0;
-        while(root){
-            root=root->left;
-            height++;
-        }
-        return height;
-    }
+    void preorder(TreeNode* root, int& count){
+        if(root==nullptr)return;
 
-    int findRH(TreeNode* root){
-        int height=0;
-        while(root){
-            root = root->right;
-            height++;
-        }
-        return height;
+        count++;
+        preorder(root->left,count);
+        preorder(root->right,count);
     }
     int countNodes(TreeNode* root) {
         //Approach-1
-        if(root==nullptr)return 0;
-
-        int lh = findLH(root);
-        int rh = findRH(root);
-
-        if(rh==lh){
-            return (1<<lh)-1;
-        }   
-
-        int leftHeight=countNodes(root->left);
-        int rightHeight=countNodes(root->right);
-
-        return (leftHeight+rightHeight+1);
+        int count=0;
+        preorder(root,count);
+        return count;
     }
 };
