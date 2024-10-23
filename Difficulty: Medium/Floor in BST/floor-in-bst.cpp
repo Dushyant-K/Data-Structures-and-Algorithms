@@ -22,17 +22,16 @@ class Solution{
 
 public:
     int floor(Node* root, int x) {
-        // Approach-1
+        //Approach-1
         int floorVal=-1;
-        while(root!=nullptr){
-            if(root->data==x)return root->data;
-            if(root->data>x){
-                root = root->left;
+        Node* dummy=root;
+        while(dummy!=nullptr){
+            if(dummy->data==x)return dummy->data;
+            else if(dummy->data<x){
+                floorVal=dummy->data;
+                dummy = dummy->right;
             }
-            else{
-                floorVal = root->data;
-                root = root->right;
-            }
+            else dummy = dummy->left;
         }
         return floorVal;
     }
