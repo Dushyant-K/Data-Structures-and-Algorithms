@@ -31,7 +31,7 @@ public:
         k--;
         if(k==0){
             result = root->val;
-            return;
+            // return;
         }
 
         inorderTraversal(root->right,k,result);
