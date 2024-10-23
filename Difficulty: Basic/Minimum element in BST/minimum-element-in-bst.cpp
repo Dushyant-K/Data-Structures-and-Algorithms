@@ -109,8 +109,9 @@ class Solution {
   public:
     int minValue(Node* root) {
         // Approach-1
+        if(root==nullptr)return -1;
         while(root->left!=nullptr){
-            root = root->left;
+            root=root->left;
         }
         return root->data;
     }
