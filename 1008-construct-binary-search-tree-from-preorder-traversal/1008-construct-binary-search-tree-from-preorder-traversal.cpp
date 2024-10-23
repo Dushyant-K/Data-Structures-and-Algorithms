@@ -11,27 +11,40 @@
  */
 class Solution {
 public:
-    TreeNode* bstFromPreorder(vector<int>& preorder) {
-        vector<int> inorder;
-        inorder=preorder;
-        sort(inorder.begin(),inorder.end());
-        map<int,int> hash;
-        for(int i=0;i<inorder.size();i++){
-            hash[inorder[i]]=i;
-        }
-        TreeNode* root = buildTree(preorder,0,preorder.size()-1,inorder,0,inorder.size()-1,hash);
+     TreeNode* build(vector<int>& preorder, int& i, int bound){
+        if(i==preorder.size()||preorder[i]>bound)return nullptr;
+
+        TreeNode* root = new TreeNode(preorder[i++]);
+        root->left = build(preorder,i,root->val);
+        root->right = build(preorder,i,bound);
         return root;
     }
     TreeNode* buildTree(vector<int>& preorder, int preStart, int preEnd, vector<int>& inorder, int inStart, int inEnd, map<int,int> hash){
         if(preStart>preEnd||inStart>inEnd)return nullptr;
 
-        TreeNode* root = new TreeNode(preorder[preStart]);
-        int inRoot = hash[root->val];
+        int rootVal = preorder[preStart];
+        TreeNode* root = new TreeNode(rootVal);
 
-        int numsLeft = inRoot-inStart;
+        int idxRoot = hash[rootVal];
+        int numsLeft = idxRoot-inStart;
 
-        root->left = buildTree(preorder,preStart+1,preEnd+numsLeft,inorder,inStart,inRoot-1,hash);
-        root->right = buildTree(preorder,preStart+numsLeft+1,preEnd,inorder,inRoot+1,inEnd,hash);
+        root->left = buildTree(preorder,preStart+1,preStart+numsLeft,inorder,inStart,idxRoot-1,hash);
+        root->right = buildTree(preorder,preStart+numsLeft+1,preEnd,inorder,idxRoot+1,inEnd,hash);
         return root;
+    }
+    TreeNode* bstFromPreorder(vector<int>& preorder) {
+        //Approach-1
+        // vector<int> inorder(preorder);
+        // sort(inorder.begin(),inorder.end());
+        // map<int,int> hash;
+        // for(int i=0;i<inorder.size();i++){
+        //     hash[inorder[i]]=i;
+        // }
+        // TreeNode* root = buildTree(preorder,0,preorder.size()-1,inorder,0,inorder.size()-1,hash);
+        // return root;
+
+        //Approach-2
+        int i=0;
+        return build(preorder,i,INT_MAX);
     }
 };
