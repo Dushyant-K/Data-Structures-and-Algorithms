@@ -102,17 +102,17 @@ int main() {
 int findCeil(Node* root, int input) {
     if (root == NULL) return -1;
 
-    // Your code here
-    int ceilVal=-1;
-    while(root!=nullptr){
-        if(root->data==input)return root->data;
-        if(root->data>input){
-            ceilVal=root->data;
-            root = root->left;
+    // Approach-1
+    Node* prev=nullptr;
+    Node* dummy=root;
+    while(dummy!=nullptr){
+        if(dummy->data==input)return dummy->data;
+        else if(dummy->data>input){
+            prev = dummy;
+            dummy=dummy->left;
         }
-        else {
-            root = root->right;
-        }
+        else dummy = dummy->right;
     }
-    return ceilVal;
+    if(prev==nullptr)return -1;
+    return prev->data;
 }
