@@ -19,34 +19,30 @@ public:
         }
 
         TreeNode* dummy = root;
-        while(root!=nullptr){
-            if(key>root->val){
-                if(root->right!=nullptr&&root->right->val==key){
-                    root->right=helper(root->right);
+        while(dummy!=nullptr){
+            if(dummy->val>key){
+                if(dummy->left!=nullptr&&dummy->left->val==key){
+                    dummy->left = helper(dummy->left);
                     break;
                 }
-                else{
-                    root=root->right;
-                }
+                dummy = dummy->left;
             }
             else{
-                if(root->left!=nullptr&&root->left->val==key){
-                    root->left = helper(root->left);
+                if(dummy->right!=nullptr&&dummy->right->val==key){
+                    dummy->right = helper(dummy->right);
                     break;
                 }
-                else{
-                    root = root->left;
-                }
+                dummy = dummy->right;
             }
         }
-        return dummy;
+        return root;
     }
     TreeNode* findLastRight(TreeNode* root){
         while(root->right!=nullptr){
-            root = root->right;
+            root=root->right;
         }
         return root;
-        }
+    }
     TreeNode* helper(TreeNode* root){
         if(root->left==nullptr)return root->right;
         if(root->right==nullptr)return root->left;
