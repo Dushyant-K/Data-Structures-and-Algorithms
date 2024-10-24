@@ -10,40 +10,47 @@
  * };
  */
  class BSTIterator {
+    private:
     stack<TreeNode*> st;
-    bool reverse=true;
+    bool reverse;
 public:
-    BSTIterator(TreeNode* root, bool isReverse) {
-        reverse = isReverse;
+    BSTIterator(TreeNode* root, bool reverse) {
+        this->reverse = reverse;
         pushAll(root);
     }
     
     int next() {
         TreeNode* node = st.top();
         st.pop();
-        if(!reverse)pushAll(node->right);
-        else pushAll(node->left);
-        return (node->val);
+        if(reverse)
+        pushAll(node->left);
+        else 
+        pushAll(node->right);
+        return node->val;
     }
     
     bool hasNext() {
         return (!st.empty());
     }
-    private:
     void pushAll(TreeNode* root){
-        while(root!=nullptr){
-            st.push(root);
-            if(reverse==true)
-            root = root->right;
-            else
-            root = root->left;
+        if(reverse){
+            while(root){
+                st.push(root);
+                root = root->right;
+            }
+        }
+        else{
+            while(root){
+                st.push(root);
+                root = root->left;
+            }
         }
     }
 };
 class Solution {
 public:
     bool findTarget(TreeNode* root, int k) {
-        if(!root)return false;
+        //Approach-1
         BSTIterator l(root,false);
         BSTIterator r(root,true);
 
@@ -51,9 +58,9 @@ public:
         int j = r.next();
         while(i<j){
             if(i+j==k)return true;
-            else if(i+j<k)i=l.next();
+            else if(i+j<k)i = l.next();
             else j = r.next();
-        }  
+        }
         return false;
     }
 };
