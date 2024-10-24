@@ -17,6 +17,7 @@ class Solution {
 ;    }
 };
 
+
 //{ Driver Code Starts.
 int main() {
     int t;
@@ -26,7 +27,9 @@ int main() {
         cin >> n;
         Solution ob;
         cout << ob.count(n) << "\n";
-    }
+    
+cout << "~" << "\n";
+}
 
     return 0;
 }
