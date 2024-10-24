@@ -18,17 +18,17 @@ public:
     }
     
     int next() {
-       TreeNode* node = st.top();
-       st.pop();
-       pushAll(node->right);
-       return node->val; 
+        TreeNode* node = st.top();
+        st.pop();
+        pushAll(node->right);
+        return node->val;
     }
     
     bool hasNext() {
         return (!st.empty());
     }
     void pushAll(TreeNode* root){
-        while(root!=nullptr){
+        while(root){
             st.push(root);
             root = root->left;
         }
