@@ -4,7 +4,7 @@ public:
         //Approach-1
         int n = mat.size();
         int m = mat[0].size();
-        vector<vector<int>> visited(n,vector<int>(m,0));
+        vector<vector<int>>visited(n,vector<int>(m,0));
         vector<vector<int>> dist(n,vector<int>(m,0));
         queue<pair<pair<int,int>,int>> q;
         for(int i=0;i<n;i++){
