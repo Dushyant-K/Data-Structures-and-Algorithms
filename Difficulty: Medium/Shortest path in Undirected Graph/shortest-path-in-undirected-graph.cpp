@@ -10,29 +10,32 @@ class Solution {
   public:
     vector<int> shortestPath(vector<vector<int>>& edges, int N,int M, int src){
         // Approach-1
+        vector<int> distance(N,INT_MAX);
+        queue<pair<int,int>> q;
         vector<int> adj[N];
-        for(auto it: edges){
-            adj[it[0]].push_back(it[1]);
-            adj[it[1]].push_back(it[0]);
+        for(int i=0;i<M;i++){
+            int first = edges[i][0];
+            int second = edges[i][1];
+            adj[first].push_back(second);
+            adj[second].push_back(first);
         }
-        vector<int> dist(N,1e9);
-        dist[src]=0;
-        queue<int> q;
-        q.push(src);
+        distance[src]=0;
+        q.push({src,0});
         while(!q.empty()){
-            int node = q.front();
+            int node = q.front().first;
+            int dist = q.front().second;
             q.pop();
             for(auto it:adj[node]){
-                if(dist[node]+1<dist[it]){
-                    dist[it]=dist[node]+1;
-                    q.push(it);
+                if(distance[it]>dist+1){
+                    q.push({it,dist+1});
+                    distance[it]=dist+1;
                 }
             }
         }
         for(int i=0;i<N;i++){
-            if(dist[i]==1e9)dist[i]=-1;
+            if(distance[i]==INT_MAX)distance[i]=-1;
         }
-        return dist;
+        return distance;
     }
 };
 
@@ -64,7 +67,9 @@ int main() {
             cout<<x<<" ";
         }
         cout << "\n";
-    }
+    
+cout << "~" << "\n";
+}
 }
 
 // } Driver Code Ends
