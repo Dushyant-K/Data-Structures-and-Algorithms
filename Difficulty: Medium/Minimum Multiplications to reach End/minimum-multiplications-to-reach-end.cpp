@@ -35,6 +35,7 @@ class Solution {
 };
 
 
+
 //{ Driver Code Starts.
 
 int main() {
@@ -52,7 +53,9 @@ int main() {
         cin >> start >> end;
         Solution obj;
         cout << obj.minimumMultiplications(arr, start, end) << endl;
-    }
+    
+cout << "~" << "\n";
+}
 }
 
 // } Driver Code Ends
