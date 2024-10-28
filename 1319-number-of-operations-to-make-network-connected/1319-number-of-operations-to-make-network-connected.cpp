@@ -10,11 +10,10 @@ class disjointSet{
         }
     }
     int findParent(int node){
-        if(parent[node]==node){
+        if (parent[node] == node) {
             return node;
         }
-
-        return parent[node]=findParent(node);
+        return parent[node] = findParent(parent[node]);
     }
     void unionSet(int node1, int node2){
         int parent1 = findParent(node1);
@@ -37,6 +36,7 @@ class disjointSet{
 class Solution {
 public:
     int makeConnected(int n, vector<vector<int>>& connections) {
+        if(connections.size()<n-1)return -1;
         disjointSet ds(n);
         int extraEdges=0;
         int components=0;
@@ -51,9 +51,9 @@ public:
             }
         }
         for(int i=0;i<n;i++){
-            if(parent[i]==i)components++;
+            if(ds.parent[i]==i)components++;
         }
-        if(extraEdges>=components)return components-1;
+        if(extraEdges>=components-1)return components-1;
         return -1;
     }
 };
