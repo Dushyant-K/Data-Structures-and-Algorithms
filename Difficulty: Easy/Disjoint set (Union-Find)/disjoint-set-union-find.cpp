@@ -30,9 +30,13 @@ int main(){
 			}
 		}
 		cout<<endl;
-	}
+	
+cout << "~" << "\n";
+}
 }
 // } Driver Code Ends
+
+
 
 
 //Disjoint Data Structure
