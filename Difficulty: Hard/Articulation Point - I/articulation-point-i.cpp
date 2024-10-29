@@ -52,6 +52,7 @@ class Solution {
     }
 };
 
+
 //{ Driver Code Starts.
 
 int main(){
@@ -71,7 +72,9 @@ int main(){
 		vector<int> ans = obj.articulationPoints(V, adj);
 		for(auto i: ans)cout << i << " ";
 		cout << "\n";
-	}
+	
+cout << "~" << "\n";
+}
 	return 0;
 }
 // } Driver Code Ends
