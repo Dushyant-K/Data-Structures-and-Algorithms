@@ -27,26 +27,55 @@ public:
         // return mini;
 
         //Approach-2(Tabulation Method-Bottom up dynamic programming)
+        // int m = matrix.size();
+        // int n = matrix[0].size();
+        // vector<vector<int>> dp(m,vector<int>(n,-1));
+        // //Base-case
+        // for(int i=0;i<n;i++){
+        //     dp[m-1][i] = matrix[m-1][i];
+        // }
+        // for(int i=m-2;i>=0;i--){
+        //     for(int j=0;j<n;j++){
+        //         int left = INT_MAX, right = INT_MAX;
+        //         if(j>0)left = dp[i+1][j-1];
+        //         int down = dp[i+1][j];
+        //         if(j<n-1)right = dp[i+1][j+1];
+
+        //         dp[i][j] = matrix[i][j]+min(left,min(down,right));
+        //     }
+        // }
+        // int mini = INT_MAX;
+        // for(int i=0;i<n;i++){
+        //     mini = min(mini,dp[0][i]);
+        // }
+        // return mini;
+
+        //Approach-3(Space optimization)
         int m = matrix.size();
         int n = matrix[0].size();
-        vector<vector<int>> dp(m,vector<int>(n,-1));
-        //Base-case
+        vector<int> prev(n,-1);
+        //base-case
         for(int i=0;i<n;i++){
-            dp[m-1][i] = matrix[m-1][i];
+            prev[i] = matrix[n-1][i];
         }
-        for(int i=m-2;i>=0;i--){
-            for(int j=0;j<n;j++){
-                int left = INT_MAX, right = INT_MAX;
-                if(j>0)left = dp[i+1][j-1];
-                int down = dp[i+1][j];
-                if(j<n-1)right = dp[i+1][j+1];
 
-                dp[i][j] = matrix[i][j]+min(left,min(down,right));
+        for(int i=m-2;i>=0;i--){
+            vector<int> temp(n,-1);
+            for(int j=0;j<n;j++){
+                int left=INT_MAX, right = INT_MAX;
+                if(j>0)left = prev[j-1];
+                int down = prev[j];
+                if(j<n-1)right = prev[j+1];
+
+                temp[j] = matrix[i][j]+min(left,min(down,right));
             }
+            prev = temp;
         }
+
+        //Now finding out the mini
         int mini = INT_MAX;
         for(int i=0;i<n;i++){
-            mini = min(mini,dp[0][i]);
+            mini = min(mini,prev[i]);
         }
         return mini;
     }
