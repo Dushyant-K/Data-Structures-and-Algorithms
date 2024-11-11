@@ -8,10 +8,10 @@ class Solution {
 
         if(dp[idx][amount]!=-1)return dp[idx][amount];
         //Take/notTake Method
-        int notTake = 0+solve(idx-1,amount,coins);
+        int notTake = 0+solve(idx-1,amount,coins,dp);
         int take = INT_MAX;
         if(coins[idx]<=amount){
-            take = 1+solve(idx,amount-coins[idx],coins);
+            take = 1+solve(idx,amount-coins[idx],coins,dp);
         }
         return dp[idx][amount]=min(take,notTake);
     }
