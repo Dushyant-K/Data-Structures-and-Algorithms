@@ -28,8 +28,8 @@ public:
         }
         for(int i=1;i<n;i++){
             for(int j=0;j<=amount;j++){
-                int notTake = dp[i-1][j];
-                int take=0;
+                long notTake = dp[i-1][j];
+                long take=0;
                 if(coins[i]<=j){
                     take = dp[i][j-coins[i]];
                 }
