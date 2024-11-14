@@ -22,7 +22,7 @@ public:
         //Tabulation method-(Bottom up dynamic programming)
         int n1=s.length();
         int n2=t.length();
-        vector<vector<long long>> dp(n1+1,vector<long long>(n2+1,0));
+        vector<vector<double>> dp(n1+1,vector<double>(n2+1,0));
         for(int i=0;i<=n1;i++)dp[i][0]=1;
         for(int i=1;i<=n2;i++)dp[0][i]=0;
 
