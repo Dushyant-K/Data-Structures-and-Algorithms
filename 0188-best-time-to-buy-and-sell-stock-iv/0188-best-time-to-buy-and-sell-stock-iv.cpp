@@ -18,22 +18,43 @@ public:
         // return solve(0,1,k,prices,dp);
 
         //Approach-2(Tabulation Method-Bottom up dynamic programming)
+        // int n=prices.size();
+        // vector<vector<vector<int>>> dp(n+1,vector<vector<int>>(2,vector<int>(k+1,0)));
+        
+        // //We don't have to initialize the base cases as they are already zero
+        // for(int i=n-1;i>=0;i--){
+        //     for(int j=0;j<=1;j++){
+        //         for(int t=1;t<=k;t++){
+        //             if(j){
+        //                 dp[i][j][t]=max(-prices[i]+dp[i+1][0][t],0+dp[i+1][1][t]);
+        //             }
+        //             else{
+        //                 dp[i][j][t]=max(prices[i]+dp[i+1][1][t-1],0+dp[i+1][0][t]);
+        //             }
+        //         }
+        //     }
+        // }
+        // return dp[0][1][k];
+
+        //Approach-3(Space optimisation Method)
         int n=prices.size();
-        vector<vector<vector<int>>> dp(n+1,vector<vector<int>>(2,vector<int>(k+1,0)));
+        vector<vector<int>> ahead(2,vector<int>(k+1,0));
         
         //We don't have to initialize the base cases as they are already zero
         for(int i=n-1;i>=0;i--){
+            vector<vector<int>> curr(2,vector<int>(k+1,0));
             for(int j=0;j<=1;j++){
                 for(int t=1;t<=k;t++){
                     if(j){
-                        dp[i][j][t]=max(-prices[i]+dp[i+1][0][t],0+dp[i+1][1][t]);
+                        curr[j][t]=max(-prices[i]+ahead[0][t],0+ahead[1][t]);
                     }
                     else{
-                        dp[i][j][t]=max(prices[i]+dp[i+1][1][t-1],0+dp[i+1][0][t]);
+                        curr[j][t]=max(prices[i]+ahead[1][t-1],0+ahead[0][t]);
                     }
                 }
             }
+             ahead=curr;
         }
-        return dp[0][1][k];
+        return ahead[1][k];
         }
 };
