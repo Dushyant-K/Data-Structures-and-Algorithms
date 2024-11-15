@@ -1,17 +1,17 @@
 class Solution {
     private:
-    int solve(int idx, int buy, vector<int>& prices){
+    int solve(int idx, int buy, vector<int>& prices, vector<vector<int>>& dp){
         if(idx==prices.size()){
             return 0;
         }
         if(dp[idx][buy]!=-1)return dp[idx][buy];
 
         if(buy){
-            int profit = max(-prices[idx]+solve(idx+1,0,prices),0+solve(idx+1,1,prices));
+            int profit = max(-prices[idx]+solve(idx+1,0,prices,dp),0+solve(idx+1,1,prices,dp));
             return dp[idx][buy]=profit;
         }
         else{
-            int profit = max(prices[idx]+solve(idx+1,1,prices),0+solve(idx+1,0,prices));
+            int profit = max(prices[idx]+solve(idx+1,1,prices,dp),0+solve(idx+1,0,prices,dp));
             return dp[idx][buy]=profit;
         }
     }
