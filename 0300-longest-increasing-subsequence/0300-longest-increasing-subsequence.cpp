@@ -27,26 +27,52 @@ public:
         // return solve(0,-1,nums,dp,n);
 
         //Approach-2(Tabulation method-Bottom up dynamic programming)
-        int n=nums.size();
-        vector<vector<int>> dp(n+1,vector<int>(n+1,0));
+    //     int n=nums.size();
+    //     vector<vector<int>> dp(n+1,vector<int>(n+1,0));
+    
+    // for(int ind = n-1; ind>=0; ind --){
+    //     for (int prev_index = ind-1; prev_index >=-1; prev_index --){
+            
+    //         int notTake = 0 + dp[ind+1][prev_index +1];
+    
+    //         int take = 0;
+    
+    //         if(prev_index == -1 || nums[ind] > nums[prev_index]){
+                
+    //             take = 1 + dp[ind+1][ind+1];
+    //         }
+    
+    //         dp[ind][prev_index+1] = max(notTake,take);
+            
+    //     }
+    // }
+    
+    // return dp[0][0];
+
+
+    //Approach-3(space optimization)
+    int n=nums.size();
+    vector<int> ahead(n+1,0);
     
     for(int ind = n-1; ind>=0; ind --){
+        vector<int> curr(n+1,0);
         for (int prev_index = ind-1; prev_index >=-1; prev_index --){
             
-            int notTake = 0 + dp[ind+1][prev_index +1];
+            int notTake = 0 + ahead[prev_index +1];
     
             int take = 0;
     
             if(prev_index == -1 || nums[ind] > nums[prev_index]){
                 
-                take = 1 + dp[ind+1][ind+1];
+                take = 1 + ahead[ind+1];
             }
     
-            dp[ind][prev_index+1] = max(notTake,take);
+            curr[prev_index+1] = max(notTake,take);
             
         }
+        ahead=curr;
     }
     
-    return dp[0][0];
+    return ahead[0];
     }
 };
