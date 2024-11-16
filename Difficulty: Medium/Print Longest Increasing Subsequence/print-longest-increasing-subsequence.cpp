@@ -8,9 +8,9 @@ class Solution {
   public:
     vector<int> longestIncreasingSubsequence(int n, vector<int>& arr) {
     // Approach-1
-    if (n == 1) return arr;
+    if (n == 1) return arr;//Edge case
     vector<int> dp(n,1);
-    vector<int> hash(n,1);
+    vector<int> hash(n);
     int maxi=1;
     int lastIndex=-1;
     
@@ -32,7 +32,6 @@ class Solution {
     
     vector<int> temp;
     temp.push_back(arr[lastIndex]);
-    int idx=1;
     while(hash[lastIndex]!=lastIndex){
         lastIndex=hash[lastIndex];
         temp.push_back(arr[lastIndex]);
