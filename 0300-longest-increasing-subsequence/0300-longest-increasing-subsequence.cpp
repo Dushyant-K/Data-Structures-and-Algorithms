@@ -51,28 +51,43 @@ public:
 
 
     //Approach-3(space optimization)
-    int n=nums.size();
-    vector<int> ahead(n+1,0);
+    // int n=nums.size();
+    // vector<int> ahead(n+1,0);
     
-    for(int ind = n-1; ind>=0; ind --){
-        vector<int> curr(n+1,0);
-        for (int prev_index = ind-1; prev_index >=-1; prev_index --){
+    // for(int ind = n-1; ind>=0; ind --){
+    //     vector<int> curr(n+1,0);
+    //     for (int prev_index = ind-1; prev_index >=-1; prev_index --){
             
-            int notTake = 0 + ahead[prev_index +1];
+    //         int notTake = 0 + ahead[prev_index +1];
     
-            int take = 0;
+    //         int take = 0;
     
-            if(prev_index == -1 || nums[ind] > nums[prev_index]){
+    //         if(prev_index == -1 || nums[ind] > nums[prev_index]){
                 
-                take = 1 + ahead[ind+1];
-            }
+    //             take = 1 + ahead[ind+1];
+    //         }
     
-            curr[prev_index+1] = max(notTake,take);
+    //         curr[prev_index+1] = max(notTake,take);
             
-        }
-        ahead=curr;
-    }
+    //     }
+    //     ahead=curr;
+    // }
     
-    return ahead[0];
+    // return ahead[0];
+
+
+    //Approach-4(Most optimal Method)
+    int n=nums.size();
+    vector<int> dp(n,1);
+    int maxi=1;
+    for(int i=0;i<n;i++){
+        for(int j=0;j<i;j++){
+            if(nums[j]<nums[i]){
+                dp[i]=max(dp[i],dp[j]+1);
+            }
+        }
+        maxi=max(maxi,dp[i]);
+    }
+    return maxi;
     }
 };
