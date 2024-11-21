@@ -9,16 +9,17 @@ public:
                 nums[i+1]=0;
             }
         }
-        for(int i=0;i<n;i++){
-            if(nums[i]==0){
-                int right=i+1;
-                while(right<n&&nums[right]==0){
-                    right++;
-                }
-                if(right==n)return nums;
-                swap(nums[i],nums[right]);
+        int insertIndex=0;
+        for (int i = 0; i < n; ++i) {
+            if (nums[i] != 0) {
+                nums[insertIndex++] = nums[i];
             }
         }
+
+        while (insertIndex < n) {
+            nums[insertIndex++] = 0;
+        }
+
         return nums;
     }
 };
