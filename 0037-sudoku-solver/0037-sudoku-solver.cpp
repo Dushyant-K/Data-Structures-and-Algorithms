@@ -28,7 +28,6 @@ bool solve(vector < vector < char >> & board) {
               board[i][j] = '.';
           }
         }
-
         return false;
       }
     }
