@@ -49,16 +49,16 @@ public:
 class Solution {
   public:
     Node* constructLL(vector<int>& arr) {
-        // Approach-1
-        int n=arr.size();
-        Node* head = new Node(arr[0]);
-        Node* temp=head;
-        for(int i=1;i<=n-1;i++){
-            Node* node = new Node(arr[i]);
-            head->next = node;
-            head = head->next;
+        // Approach1-
+        if(arr.size()==0)return nullptr;
+        Node* head=new Node(arr[0]);
+        Node* dummy=head;
+        for(int i=1;i<arr.size();i++){
+            Node* newNode=new Node(arr[i]);
+            dummy->next=newNode;
+            dummy=dummy->next;
         }
-        return temp;
+        return head;
     }
 };
 
@@ -83,7 +83,7 @@ int main() {
             cout << ans->data << " ";
             ans = ans->next;
         }
-        cout << "\n";
+        cout << "\n~\n";
     }
     return 0;
 }
