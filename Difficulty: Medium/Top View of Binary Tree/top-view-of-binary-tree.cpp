@@ -105,25 +105,27 @@ class Solution
     vector<int> topView(Node *root)
     {
         //Approach-1
-        map<int,int> mpp;
-        queue<pair<Node*,int>> q;
-        q.push({root,0});
+        map<int,int> nodes;
+        queue<pair<Node*,pair<int,int>>> q;
+        q.push({root,{0,0}});
         while(!q.empty()){
-            auto p = q.front();
+            auto it=q.front();
             q.pop();
-            Node* node = p.first;
-            int col = p.second;
-            if(node->left)q.push({node->left,col-1});
-            if(node->right)q.push({node->right,col+1});
-            if(mpp.find(col)==mpp.end()){
-                mpp[col]=node->data;
+            Node* node=it.first;
+            int row=it.second.first;
+            int col=it.second.second;
+            
+            if(nodes.find(col)==nodes.end()){
+                nodes[col]=node->data;
             }
+            if(node->left)q.push({node->left,{row+1,col-1}});
+            if(node->right)q.push({node->right,{row+1,col+1}});
         }
-        vector<int> res;
-        for(auto p:mpp){
-            res.push_back(p.second);
+        vector<int> ans;
+        for(auto it:nodes){
+            ans.push_back(it.second);
         }
-        return res;
+        return ans;
     }
 
 };
@@ -145,7 +147,9 @@ int main() {
         for(int x : vec)
             cout<<x<<" ";
         cout<<endl;
-    }
+    
+cout << "~" << "\n";
+}
     return 0;
 }
 // } Driver Code Ends
