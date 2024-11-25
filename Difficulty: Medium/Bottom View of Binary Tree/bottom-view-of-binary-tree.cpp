@@ -96,24 +96,28 @@ Node* buildTree(string str)
 class Solution {
   public:
     vector <int> bottomView(Node *root) {
-        //Approach-1
-         map<int,int> mpp;
-        queue<pair<Node*,int>> q;
-        q.push({root,0});
+        // Your Code Here
+                //Approach-1
+        map<int,int> nodes;
+        queue<pair<Node*,pair<int,int>>> q;
+        q.push({root,{0,0}});
         while(!q.empty()){
-            auto p = q.front();
+            auto it=q.front();
             q.pop();
-            Node* node = p.first;
-            int col = p.second;
-            if(node->left)q.push({node->left,col-1});
-            if(node->right)q.push({node->right,col+1});
-                mpp[col]=node->data;
+            Node* node=it.first;
+            int row=it.second.first;
+            int col=it.second.second;
+            
+            nodes[col]=node->data;
+            
+            if(node->left)q.push({node->left,{row+1,col-1}});
+            if(node->right)q.push({node->right,{row+1,col+1}});
         }
-        vector<int> res;
-        for(auto p:mpp){
-            res.push_back(p.second);
+        vector<int> ans;
+        for(auto it:nodes){
+            ans.push_back(it.second);
         }
-        return res;
+        return ans;
     }
 };
 
@@ -133,7 +137,9 @@ int main() {
         vector <int> res = ob.bottomView(root);
         for (int i : res) cout << i << " ";
         cout << endl;
-    }
+    
+cout << "~" << "\n";
+}
     return 0;
 }
 
