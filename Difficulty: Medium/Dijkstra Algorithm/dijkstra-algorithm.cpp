@@ -10,36 +10,46 @@ class Solution {
     // Function to find the shortest distance of all the vertices
     // from the source vertex src.
     vector<int> dijkstra(vector<vector<pair<int, int>>> &adj, int src) {
-        // Approach-1(Using a set)
-        int n = adj.size();
-        
-        vector<int> distance(n,1e9);
+        // Approach-1(Dijkstra's algorithim using set)
         set<pair<int,int>> st;
-        distance[src]=0;
+        int v=adj.size();
+        vector<int> dist(v,1e9);
         st.insert({0,src});
+        dist[src]=0;
         
-        //Begin the iteration
+        //Now the containers are ready
         while(!st.empty()){
             auto it = *(st.begin());
-            st.erase(it);
-            int dist = it.first;
+            int distance = it.first;
             int node = it.second;
+            st.erase(it);
             
-            for(auto i:adj[node]){
-                int neighbour = i.first;
-                int weight = i.second;
-                if(distance[neighbour]>dist+weight){
-                    
-                    if(distance[neighbour]!=1e9){
-                        st.erase({distance[neighbour],neighbour});
+            for (auto &neighbor : adj[node]) {
+                int neighborNode = neighbor.first;
+                int weight = neighbor.second;
+                
+                // Relaxation step
+                if (distance + weight < dist[neighborNode]) {
+                    // If the neighbor already exists in the set, remove it
+                    if (dist[neighborNode] != 1e9) {
+                        st.erase({dist[neighborNode], neighborNode});
                     }
-                    
-                    distance[neighbour]=dist+weight;
-                    st.insert({distance[neighbour],neighbour});
+                    // Update the distance
+                    dist[neighborNode] = distance + weight;
+                    st.insert({dist[neighborNode], neighborNode});
                 }
             }
         }
-        return distance;
+        
+        vector<int> ans(v);
+        for(int i=0;i<v;i++){
+            if(dist[i]==1e9){
+                ans[i]=-1;
+                continue;
+            }
+            ans[i]=dist[i];
+        }
+        return ans;
     }
 };
 
@@ -71,6 +81,9 @@ int main() {
         for (int i = 0; i < V; i++)
             cout << res[i] << " ";
         cout << endl;
+
+        cout << "~"
+             << "\n";
     }
 
     return 0;
