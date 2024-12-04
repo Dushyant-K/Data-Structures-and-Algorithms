@@ -8,63 +8,60 @@ using namespace std;
 // } Driver Code Ends
 // User function Template for C++
 class Solution {
-  public:
-    void topoSort(int node, vector<int>& visited, vector<pair<int,int>> adj[], stack<int>& st){
-        visited[node]=1;
-        
-        for(auto it: adj[node]){
-            int neighbour = it.first;
-            int weight = it.second;
-            if(visited[neighbour]==0){
-                topoSort(neighbour,visited,adj,st);
+    private:
+    void dfs(int src, vector<pair<int,int>> adj[], vector<int>& visited, stack<int>& st){
+        visited[src]=1;
+        for(auto it:adj[src]){
+            if(visited[it.first]==0){
+                dfs(it.first,adj,visited,st);
             }
         }
-        
-        st.push(node);
+        st.push(src);
     }
+  public:
     vector<int> shortestPath(int V, int E, vector<vector<int>>& edges) {
-        //Approach-1
+        // Approach-1(Topo sort along with relaxation of nodes)
         vector<pair<int,int>> adj[V];
-        for(int i=0;i<E;i++){
-            int first = edges[i][0];
-            int second = edges[i][1];
-            int weight = edges[i][2];
-            adj[first].push_back({second,weight});
+        for(auto it:edges){
+            int u=it[0];
+            int v=it[1];
+            int w=it[2];
+            adj[u].push_back({v,w});
         }
-        
-        //Perform a topological Sort
+        //Finding topo sort using dfs method
         vector<int> visited(V,0);
         stack<int> st;
         for(int i=0;i<V;i++){
-            if(!visited[i]){
-                topoSort(i,visited,adj,st);
+            if(visited[i]==0){
+                dfs(i,adj,visited,st);
             }
         }
         
-        
-        //At the top of the stack we have to ensure that we are starting form the node
-        while(st.top()!=0){
+        ///Now we will start relaxing the nodes
+        vector<int> dist(V,1e9);
+        dist[0]=0;
+        while(!st.empty()){
+            if(st.top()==0)break;
             st.pop();
         }
-        //Pop elements from the stack and start relaxation of the node
-        vector<int> distance(V,1e9);
-        distance[0]=0;
         while(!st.empty()){
-            int node = st.top();
+            int node=st.top();
             st.pop();
             for(auto it:adj[node]){
-                int neighbour = it.first;
-                int weight = it.second;
-                if(distance[node]+weight<distance[neighbour]){
-                    distance[neighbour]=distance[node]+weight;
+                if(dist[node]+it.second<dist[it.first]){
+                    dist[it.first]=dist[node]+it.second;
                 }
             }
         }
-        
+        vector<int> ans(V);
         for(int i=0;i<V;i++){
-            if(distance[i]==1e9)distance[i]=-1;
+            if(dist[i]==1e9){
+                ans[i]=-1;
+                continue;
+            }
+            ans[i]=dist[i];
         }
-        return distance;
+        return ans;
     }
 };
 
@@ -92,6 +89,9 @@ int main() {
             cout << x << " ";
         }
         cout << "\n";
+
+        cout << "~"
+             << "\n";
     }
 }
 
