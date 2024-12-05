@@ -20,11 +20,7 @@ public:
         while (i < n && start[i] == '_') i++;
         while (j < n && target[j] == '_') j++;
 
-        // If both pointers are out of bounds, we are done
-        if (i == n && j == n) return true;
-        
-        // If one pointer is out of bounds, but not the other, it's invalid
-        if (i == n || j == n) return false;
+
 
         // Check if positions and rules for 'L' and 'R' are valid
         if (start[i] != target[j]) return false;
