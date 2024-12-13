@@ -12,7 +12,7 @@ void dfs(vector<vector<int>>& graph, int parent, int curr, vector<vector<int>>& 
 public:
     vector<vector<int>> getAncestors(int n, vector<vector<int>>& edges) {
        //Approach-1 
-      vector<vector<int>> res(n);
+       vector<vector<int>> res(n);
         vector<vector<int>> graph(n);
         
         for (const auto& edge : edges) {
