@@ -1,41 +1,41 @@
 class Solution {
- using v = pair<double, int>;
-    vector<vector<v>> adj;
+public:
+    double maxProbability(int n, vector<vector<int>>& edges, vector<double>& succProb, int start_node, int end_node) {
+        //Approach-1(Djikstra's algorithim)
+        if(n==0)return (0.0);
 
-    inline void create_adj(int n, vector<vector<int>>& edges, vector<double>& succProb) {
-        adj.resize(n);
-        int eN = edges.size();
-        for (int i = 0; i < eN; i++) {
-            int v0 = edges[i][0], v1 = edges[i][1];
-            adj[v0].push_back({succProb[i], v1});
-            adj[v1].push_back({succProb[i], v0});
+        vector<pair<int,double>> adj[n];
+        for(int i=0;i<edges.size();i++){
+            int u=edges[i][0];
+            int v=edges[i][1];
+            double probability=succProb[i];
+
+            adj[u].push_back({v,probability});
+            adj[v].push_back({u,probability});
         }
-    }
 
-    double maxProbability(int n, vector<vector<int>>& edges, vector<double>& succProb, int start, int end) {
-        vector<double> prob(n, 0);
-        create_adj(n, edges, succProb);
-        priority_queue<v, vector<v>> pq;
-       
-        pq.push({1.0, start});
-        prob[start] = 1.0;
+        priority_queue<pair<double,int>,vector<pair<double,int>>,greater<pair<double,int>>> pq;
+        vector<double> maxProb(n,0);
 
-        while (!pq.empty()) {
-            auto [cur_prob, i] = pq.top();
+        pq.push({1,start_node});
+        maxProb[start_node]=1;
+
+        while(!pq.empty()){
+            auto it=pq.top();
             pq.pop();
-        //    cout<< i<<","<<cur_prob<<endl;
-            if (i == end) 
-                return cur_prob;
+            double prob=it.first;
+            int node=it.second;
 
-            for (auto [next_prob, j] : adj[i]) {
-                double new_prob = cur_prob * next_prob;
-                if (new_prob > prob[j]) {
-                    prob[j] = new_prob;
-                //    cout<< i<<","<<j<<","<<new_prob<<endl;
-                    pq.push({new_prob, j});
+            for(auto next:adj[node]){
+                int neighbour=next.first;
+                double nextProb=next.second;
+                if(prob*nextProb>maxProb[neighbour]){
+                    maxProb[neighbour]=prob*nextProb;
+                    pq.push({maxProb[neighbour],neighbour});
                 }
             }
         }
-        return 0.0;
+
+        return maxProb[end_node];
     }
 };
