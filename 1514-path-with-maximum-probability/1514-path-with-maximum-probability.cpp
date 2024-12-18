@@ -14,7 +14,7 @@ public:
             adj[v].push_back({u,probability});
         }
 
-        priority_queue<pair<double,int>,vector<pair<double,int>>,greater<pair<double,int>>> pq;
+        priority_queue<pair<double,int>> pq;
         vector<double> maxProb(n,0);
 
         pq.push({1,start_node});
