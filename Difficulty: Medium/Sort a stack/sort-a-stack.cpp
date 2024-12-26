@@ -52,24 +52,24 @@ public:
 
 /* The below method sorts the stack s 
 you are required to complete the below method */
-void inSortedOrder(stack<int>& st, int& element){
+void inSortedOrder(stack<int>& st, int element){
     if(st.empty()||st.top()<element){
         st.push(element);
         return;
     }
     
-    int temp = st.top();
+    int topElement=st.top();
     st.pop();
-    
     inSortedOrder(st,element);
-    st.push(temp);
+    
+    st.push(topElement);
 }
 void SortedStack :: sort()
 {
    //Approach-1
    if(s.empty())return;
    
-   int topElement = s.top();
+   int topElement=s.top();
    s.pop();
    
    sort();
