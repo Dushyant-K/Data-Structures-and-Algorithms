@@ -1,42 +1,40 @@
 class Solution {
-public:
-    bool check(int row, int col, int idx, vector<vector<char>> board, int n, int m, string word, vector<vector<int>>& visited){
-        if(idx==word.size()){
-            return true;
-        }
+    private:
+    bool isValid(int row, int col, int n, int m){
+        if(row>=0&&row<n&&col>=0&&col<m)return true;
+        return false;
+    }
+    bool solve(int idx, int row, int col, vector<vector<char>>& board, int n, int m, string word){
+        if(idx>=word.size())return true;
+
         int drow[]={-1,0,1,0};
         int dcol[]={0,1,0,-1};
         for(int i=0;i<4;i++){
-            int nextRow = row+drow[i];
-            int nextCol = col+dcol[i];
-            if(nextRow>=0&&nextRow<n&&nextCol>=0&&nextCol<m&&board[nextRow][nextCol]==word[idx]&&visited[nextRow][nextCol]==0){
-                visited[nextRow][nextCol]=1;
-                if(check(nextRow,nextCol,idx+1,board,n,m,word,visited))return true;
-                visited[nextRow][nextCol]=0;
+            int nextRow=row+drow[i];
+            int nextCol=col+dcol[i];
+            if(isValid(nextRow,nextCol,n,m)&&board[nextRow][nextCol]==word[idx]){
+                board[nextRow][nextCol]='.';
+                if(solve(idx+1,nextRow,nextCol,board,n,m,word))return true;
+                board[nextRow][nextCol]=word[idx];
             }
         }
         return false;
     }
+public:
     bool exist(vector<vector<char>>& board, string word) {
-        //Approach-1
-        int n = board.size();
-        int m = board[0].size();
-        int row=-1;
-        int col=-1;
-        vector<vector<int>> visited(n,vector<int>(m,0));
-        for(int i=0;i<n;i++){
-            for(int j=0;j<m;j++){
-               if (board[i][j] == word[0]) {
-                    visited[i][j] = 1;
-                    if (check(i, j, 1, board, n, m, word, visited)) {
-                        return true;
-                    }
-                    visited[i][j] = 0;
-               }
+       //Approach-1(Recursion)
+       int n=board.size();
+       int m=board[0].size();
+
+       for(int i=0;i<n;i++){
+        for(int j=0;j<m;j++){
+            if(board[i][j]==word[0]){
+                board[i][j]='.';
+                if(solve(1,i,j,board,n,m,word))return true;
+                board[i][j]=word[0];
             }
         }
-        if(row==-1||col==-1)return false;
-
-        return check(row,col,1,board,n,m,word,visited);
+       } 
+       return false;
     }
 };
