@@ -4,7 +4,7 @@ class Solution {
         if(row>=0&&row<n&&col>=0&&col<m)return true;
         return false;
     }
-    bool solve(int idx, int row, int col, vector<vector<char>>& board, int n, int m, string word){
+    bool solve(int idx, int row, int col, vector<vector<char>> board, int n, int m, string word){
         if(idx>=word.size())return true;
 
         int drow[]={-1,0,1,0};
