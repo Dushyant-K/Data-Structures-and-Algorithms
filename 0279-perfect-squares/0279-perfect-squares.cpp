@@ -1,18 +1,19 @@
 class Solution {
 public:
-    int solve(int idx, vector<int>& squares, int n){
+    int solve(int idx, vector<int>& squares, int n, vector<vector<int>>& dp){
         if(n == 0) return 0;
         if(idx < 0) return INT_MAX;
+        if(dp[idx][n]!=-1)return dp[idx][n];
 
         int take = INT_MAX;
         if(squares[idx] <= n){
-            take = solve(idx, squares, n - squares[idx]);
+            take = solve(idx, squares, n - squares[idx],dp);
             if(take != INT_MAX) take += 1;
         }
 
-        int not_take = solve(idx - 1, squares, n);
+        int not_take = solve(idx - 1, squares, n, dp);
 
-        return min(take, not_take);
+        return dp[idx][n]=min(take, not_take);
     }
 
     int numSquares(int n) {
@@ -21,6 +22,7 @@ public:
             squares.push_back(i * i);
         }
 
-        return solve(squares.size() - 1, squares, n);
+        vector<vector<int>> dp(squares.size(),vector<int>(n+1,-1));
+        return solve(squares.size() - 1, squares, n,dp);
     }
 };
