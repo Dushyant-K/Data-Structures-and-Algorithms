@@ -16,9 +16,29 @@ public:
         return dp[idx]=left+right;
     }
     int numDecodings(string s) {
-        //Approach-1(Recursion backtracking)
+        //Approach-1(Recursion backtracking-Memoization Method-Top down dynamic programming)
+        // int n=s.length();
+        // vector<int> dp(n+1,-1);
+        // return solve(0,s,n,dp);
+
+        //Approach-2(Tabulation-Bottom Up Dynamic Programming)
         int n=s.length();
-        vector<int> dp(n+1,-1);
-        return solve(0,s,n,dp);
+        vector<int> dp(n+1);
+        
+        for(int i=0;i<n;i++){
+            if(s[i]=='0')dp[i]=0;
+        }
+        dp[n]=1;
+
+        for(int i=n-1;i>=0;i--){
+            if(s[i]=='0')continue;
+            int left=dp[i+1];
+            int right=0;
+            if(i<n-1&&stoi(s.substr(i,2))<=26)right=dp[i+2];
+
+            dp[i]=left+right;
+        }
+
+        return dp[0];
     }
 };
