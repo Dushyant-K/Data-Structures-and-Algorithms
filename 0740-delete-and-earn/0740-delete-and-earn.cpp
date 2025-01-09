@@ -1,16 +1,16 @@
 class Solution {
 public:
-    int solve(int idx, vector<int>& points){
+    int solve(int idx, vector<int>& points, vector<int>& dp){
         if(idx<=0)return 0;
-
+        if(dp[idx]!=-1)return dp[idx];
 
         //Take
-        int take=points[idx]+solve(idx-2,points);
+        int take=points[idx]+solve(idx-2,points,dp);
 
         //Not-Take
-        int not_take=solve(idx-1,points);
+        int not_take=solve(idx-1,points,dp);
 
-        return max(take,not_take);
+        return dp[idx]=max(take,not_take);
     }
     int deleteAndEarn(vector<int>& nums) {
        //Approach-1(Recursion backtracking)
@@ -22,7 +22,8 @@ public:
        for(auto it:nums){
         points[it]+=it;
        } 
-
-       return solve(maxi,points);
+       
+       vector<int> dp(maxi+1,-1);
+       return solve(maxi,points,dp);
     }
 };
