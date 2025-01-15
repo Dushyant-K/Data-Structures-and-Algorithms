@@ -20,7 +20,22 @@ class Solution {
 public:
     int kInversePairs(int n, int k) {
         //Approach-1(Memoizaion Method- Top Down dynamic programming)
-        vector<vector<int>> dp(n + 1, vector<int>(k + 1, -1));
-        return solve(n, k, dp);
+        // vector<vector<int>> dp(n + 1, vector<int>(k + 1, -1));
+        // return solve(n, k, dp);
+
+        //Approach-2(Tabulation Method-Bottom up dynamic programming)
+        vector<vector<int>> dp(n + 1, vector<int>(k + 1, 0));
+        dp[0][0]=1;
+
+        for(int i=1;i<=n;i++){
+            for(int j=0;j<=k;j++){
+                int result=0;
+                for(int pairs=0;pairs<=min(j,i-1);pairs++){
+                    result=(result+dp[i-1][j-pairs])%mod;
+                }
+                dp[i][j]=result;
+            }
+        }
+        return dp[n][k];
     }
 };
