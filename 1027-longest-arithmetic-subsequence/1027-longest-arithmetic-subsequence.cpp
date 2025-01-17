@@ -49,17 +49,37 @@ public:
         // return solve(n-1,-1,-1,nums,dp);
 
         //Approach-2(Different Approach)
-        int n = nums.size();
-        if (n <= 2) return n;
+        // int n = nums.size();
+        // if (n <= 2) return n;
 
-        int maxLength = 2; // At least two elements form an arithmetic sequence
-        vector<unordered_map<int, int>> dp(n); // Memoization for each index and difference
+        // int maxLength = 2; // At least two elements form an arithmetic sequence
+        // vector<unordered_map<int, int>> dp(n); // Memoization for each index and difference
 
-        // Try starting with every pair of elements as the first two in the subsequence
-        for (int i = 0; i < n; ++i) {
-            for (int j = i + 1; j < n; ++j) {
+        // // Try starting with every pair of elements as the first two in the subsequence
+        // for (int i = 0; i < n; ++i) {
+        //     for (int j = i + 1; j < n; ++j) {
+        //         int diff = nums[j] - nums[i];
+        //         maxLength = max(maxLength, 2 + solve(j + 1, j, diff, nums, dp));
+        //     }
+        // }
+        // return maxLength;
+
+        //Approach-3(Tabulation Method-Bottom up dynamic prigramming)
+        int n=nums.size();
+        if(n<=2)return n;
+
+        int maxLength=2;
+        vector<unordered_map<int,int>> dp(n);
+
+         for (int j = 1; j < n; ++j) {
+            for (int i = 0; i < j; ++i) {
                 int diff = nums[j] - nums[i];
-                maxLength = max(maxLength, 2 + solve(j + 1, j, diff, nums, dp));
+
+                // If the difference exists for dp[i], extend the subsequence; otherwise, start a new one
+                dp[j][diff] = dp[i].count(diff) ? dp[i][diff] + 1 : 2;
+
+                // Update the maximum length
+                maxLength = max(maxLength, dp[j][diff]);
             }
         }
 
