@@ -25,19 +25,19 @@ class Solution {
         if (idx == nums.size()) return 0;
 
         // Check memoization
-        if (prevIdx != -1 && dp[prevIdx].count(diff)) return dp[prevIdx][diff];
+        if (dp[prevIdx].count(diff)) return dp[prevIdx][diff];
 
         // Option 1: Skip the current element
         int notTake = solve(idx + 1, prevIdx, diff, nums, dp);
 
         // Option 2: Take the current element if it forms an arithmetic sequence
         int take = 0;
-        if (prevIdx == -1 || nums[idx] - nums[prevIdx] == diff) {
+        if (nums[idx] - nums[prevIdx] == diff) {
             take = 1 + solve(idx + 1, idx, diff, nums, dp);
         }
 
         // Memoize and return the result
-        if (prevIdx != -1) dp[prevIdx][diff] = max(take, notTake);
+        dp[prevIdx][diff] = max(take, notTake);
         return max(take, notTake);
     }
 public:
