@@ -5,9 +5,7 @@ public:
         int m = grid.size();
         int n = grid[0].size();
         
-        
         vector<pair<int, int>> directions = {{0, 1}, {0, -1}, {1, 0}, {-1, 0}};
-        
         
         vector<vector<int>> dist(m, vector<int>(n, INT_MAX));
         dist[0][0] = 0;
