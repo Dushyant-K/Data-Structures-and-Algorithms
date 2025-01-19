@@ -1,31 +1,47 @@
 class Solution {
-    private:
-    bool solve(int currentUnit, int lastJump, unordered_set<int>& st, int lastStone, vector<vector<int>>& dp){
-        if(currentUnit==lastStone)return true;
-        if(dp[currentUnit][lastJump]!=-1)return dp[currentUnit][lastJump];
-
-        if(lastJump-1>0&&st.find(currentUnit+lastJump-1)!=st.end()){
-            if(solve(currentUnit+lastJump-1,lastJump-1,st,lastStone,dp))return dp[currentUnit][lastJump]=true;
-        }
-        if(st.find(currentUnit+lastJump)!=st.end()){
-            if(solve(currentUnit+lastJump,lastJump,st,lastStone,dp))return dp[currentUnit][lastJump]=true;
-        }
-        if(st.find(currentUnit+lastJump+1)!=st.end()){
-            if(solve(currentUnit+lastJump+1,lastJump+1,st,lastStone,dp))return dp[currentUnit][lastJump]=true;
-        }
-
-        return dp[currentUnit][lastJump]=false;
+private:
+bool canCrossHelper(vector<int>& stones, int pos, int lastJump, vector<vector<int>>& dp, unordered_map<int, int>& stoneIndex) {
+    // If the frog has reached the last stone
+    if (pos == stones.back()) {
+        return true;
     }
+
+    // If the current state is already computed
+    if (dp[stoneIndex[pos]][lastJump] != -1) {
+        return dp[stoneIndex[pos]][lastJump];
+    }
+
+    // Try jumps of k-1, k, and k+1 units
+    for (int jump = lastJump - 1; jump <= lastJump + 1; ++jump) {
+        if (jump > 0) { // Only consider positive jumps
+            int nextPos = pos + jump;
+
+            // Check if the next position is a stone
+            if (stoneIndex.count(nextPos)) {
+                if (canCrossHelper(stones, nextPos, jump, dp, stoneIndex)) {
+                    return dp[stoneIndex[pos]][lastJump] = 1;
+                }
+            }
+        }
+    }
+
+    return dp[stoneIndex[pos]][lastJump] = 0;
+}
 public:
     bool canCross(vector<int>& stones) {
     //Approach-1(Memoization Method=Top down dynamic programming)
-    int n=stones.size();
-    if(n==1)return true;
-    if(stones[1]-stones[0]!=1)return false;
-    unordered_set<int> st;
-    for(int i=0;i<n;i++)st.insert(stones[i]);
+    int n = stones.size();
+    vector<vector<int>> dp(n, vector<int>(n, -1)); // DP table to store results
+    unordered_map<int, int> stoneIndex; // Map stone position to its index
 
-    vector<vector<int>> dp(stones[n-1]+1,vector<int>(stones[n-1]-stones[0]+1,-1));
-    return solve(stones[1],1,st,stones[n-1],dp); 
+    for (int i = 0; i < n; ++i) {
+        stoneIndex[stones[i]] = i;
+    }
+
+    if (stones[1] != 1) {
+        return false; // If the first jump isn't possible
+    }
+
+    return canCrossHelper(stones, 0, 0, dp, stoneIndex); 
     }
 };
