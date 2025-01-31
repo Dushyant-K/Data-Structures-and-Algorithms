@@ -85,6 +85,7 @@ public:
                 }
             }
         }  
+        //If the matrix doesnt have any zeros
         for (int cellNo = 0; cellNo < n * n; cellNo++) {
             largestIsland = max(largestIsland, ds.size[ds.findUParent(cellNo)]);
         }  
