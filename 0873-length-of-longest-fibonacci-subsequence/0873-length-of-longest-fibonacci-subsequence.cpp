@@ -10,7 +10,7 @@ class Solution {
             return dp[i][j]=1+solve(k,i,mpp,arr,dp);
         }
 
-        return 2;
+        return dp[i][j]=2;
     }
 public:
     int lenLongestFibSubseq(vector<int>& arr) {
