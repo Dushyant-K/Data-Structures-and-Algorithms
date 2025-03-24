@@ -9,10 +9,10 @@ public:
         while(right<n){
             if(nums[right]==0)count++;
 
-           while(count>k){
+          if(count>k){
             if(nums[left]==0)count--;
             left++;
-           }
+          }
 
            int length = (right-left+1);
            maxLength = max(length,maxLength);
