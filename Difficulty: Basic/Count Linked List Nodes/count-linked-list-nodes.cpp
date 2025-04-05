@@ -14,6 +14,7 @@ struct Node {
 
 
 // } Driver Code Ends
+
 /* Link list node */
 /*
 struct Node
@@ -30,14 +31,17 @@ class Solution {
 
         // Approach-1
         if(head==nullptr)return 0;
-        int length=1;
-        while(head->next!=nullptr){
-            length++;
+        
+        int count=0;
+        while(head){
             head=head->next;
+            count++;
         }
-        return length;
+        
+        return count;
     }
 };
+
 
 
 //{ Driver Code Starts.
@@ -63,6 +67,7 @@ int main() {
         }
         Solution ob;
         cout << ob.getCount(head) << endl;
+        cout << "~" << endl;
     }
     return 0;
 }
