@@ -32,6 +32,7 @@ void loopHere(Node *head, Node *tail, int position) {
 
 
 // } Driver Code Ends
+
 /*
 
 struct Node {
@@ -47,41 +48,35 @@ struct Node {
 class Solution {
   public:
     // Function to find the length of a loop in the linked list.
-    int countNodesinLoop(struct Node *head) {
-        //Approach-1
-        // Node* mover = head;
-        // map<Node*,int> mpp;
-        // int timer =1;
-        // while(mover!=nullptr){
-        //     if(mpp.contains(mover)==true){
-        //         int value = mpp[mover];
-        //         return (timer-value);
-        //     }
-        //     mpp[mover] = timer;
-        //     mover = mover->next;
-        //     timer++;
-        // }
-        // return 0;
-        
-        //Approach-2
+    int countNodesinLoop(Node *head) {
+        // Approach-1(Hare and tortoise)
+        Node* hare=head;
         Node* tortoise = head;
-        Node* hare = head;
-        while(hare!=nullptr && hare->next!= nullptr){
-            tortoise = tortoise->next;
-            hare = hare->next->next;
-            if(tortoise==hare){
+        
+        while(hare&&hare->next!=nullptr){
+            tortoise=tortoise->next;
+            hare=hare->next->next;
+            
+            if(hare==tortoise){
+                tortoise=head;
+                while(hare!=tortoise){
+                    hare=hare->next;
+                    tortoise=tortoise->next;
+                }
                 int count=1;
-                tortoise = tortoise->next;
-                while(tortoise!=hare){
-                    tortoise = tortoise->next;
+                hare=hare->next;
+                while(hare!=tortoise){
+                    hare=hare->next;
                     count++;
                 }
                 return count;
             }
         }
+        
         return 0;
     }
 };
+
 
 //{ Driver Code Starts.
 
