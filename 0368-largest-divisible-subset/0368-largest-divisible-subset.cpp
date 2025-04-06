@@ -5,9 +5,9 @@ public:
     int n = nums.size();
     sort(nums.begin(),nums.end());
     vector<int> dp(n,1);
-    vector<int> hash(n,1);
+    vector<int> hash(n);
     int maxi=1;
-    int lastIndex=-1;
+    int lastIndex=0;
     
     for(int i=0; i<=n-1; i++){
         
