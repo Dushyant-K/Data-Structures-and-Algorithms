@@ -4,8 +4,8 @@ using namespace std;
 
 struct Node {
     int data;
-    struct Node *next;
-    struct Node *bottom;
+    struct Node* next;
+    struct Node* bottom;
 
     Node(int x) {
         data = x;
@@ -14,16 +14,28 @@ struct Node {
     }
 };
 
-void printList(Node *Node) {
-    while (Node != NULL) {
-        printf("%d ", Node->data);
-        Node = Node->bottom;
+void printList(Node* head) {
+    while (head != NULL) {
+        printf("%d ", head->data);
+        head = head->bottom;
     }
     printf("\n");
 }
 
+Node* createLinkedList(vector<Node*>& v) {
+    Node* head = new Node(0);
+    Node* temp = head;
+    int n = v.size();
+    for (int i = 0; i < n; i++) {
+        temp->next = v[i];
+        temp = temp->next;
+    }
+    return head->next;
+}
+
 
 // } Driver Code Ends
+
 /* Node structure  used in the program
 
 struct Node{
@@ -42,34 +54,44 @@ struct Node{
 
 class Solution {
   public:
-    Node* convertToLL(vector<int> ans){
-        int n=ans.size();
-        Node* head = new Node(ans[0]);
-        Node* prev=head;
-        for(int i=1;i<n;i++){
-            Node* newNode = new Node(ans[i]);
-            prev->bottom=newNode;
-            prev=newNode;
+    Node* merge(Node* head1, Node* head2){
+        Node* dummy = new Node(-1);
+        Node* newHead = dummy;
+        while(head1&&head2){
+            if(head1->data<=head2->data){
+                dummy->bottom = head1;
+                dummy=head1;
+                head1=head1->bottom;
+            }else{
+                dummy->bottom=head2;
+                dummy=head2;
+                head2=head2->bottom;
+            }
+            dummy->next=nullptr;
         }
-        return head;
+        while(head1){
+            dummy->bottom=head1;
+            dummy=head1;
+            head1=head1->bottom;
+        }
+        while(head2){
+            dummy->bottom=head2;
+            dummy=head2;
+            head2=head2->bottom;
+        }
+        return newHead->bottom;
     }
     // Function which returns the  root of the flattened linked list.
     Node *flatten(Node *root) {
-        // Approach-1
-        Node* temp = root;
-        vector<int> flatten;
-        while(temp!=nullptr){
-            Node* temp2=temp;
-            while(temp2!=nullptr){
-                flatten.push_back(temp2->data);
-                temp2=temp2->bottom;
-            }
-            temp=temp->next;
-        }
-        sort(flatten.begin(),flatten.end());
-        return (convertToLL(flatten));
+        //Approach-1
+        if(root->next==nullptr)return root;
+        
+        Node* mergedHead = flatten(root->next);
+        return merge(root,mergedHead);
+        
     }
 };
+
 
 
 //{ Driver Code Starts.
@@ -77,49 +99,37 @@ class Solution {
 int main() {
     int t;
     cin >> t;
+    cin.ignore();
     while (t--) {
         int n;
-        vector<int> work;
-        string input;
-        getline(cin, input); // Read the entire line for the array elements
-        getline(cin, input); // Read the entire line for the array elements
-        stringstream ss(input);
-        int number;
-        while (ss >> number) {
-            work.push_back(number);
-        }
-        n = work.size();
+        cin >> n;
+        cin.ignore();
 
-        Node *head = NULL;
-        Node *pre = NULL;
+        vector<Node*> v(n);
 
         for (int i = 0; i < n; i++) {
-            int m = work[i] - 1;
-            int data;
-            cin >> data;
-            Node *temp = new Node(data);
-            if (head == NULL) {
-                head = temp;
-                pre = temp;
-            } else {
-                pre->next = temp;
-                pre = temp;
-            }
+            string line;
+            getline(cin, line);
+            stringstream ss(line);
 
-            Node *preB = temp;
-            for (int j = 0; j < m; j++) {
-                int temp_data;
-                cin >> temp_data;
-                Node *tempB = new Node(temp_data);
-                preB->bottom = tempB;
-                preB = tempB;
+            Node* head = new Node(0);
+            Node* temp = head;
+            int x;
+            while (ss >> x) {
+                Node* newNode = new Node(x);
+                temp->bottom = newNode;
+                temp = temp->bottom;
             }
+            v[i] = head->bottom;
         }
 
         Solution ob;
-        Node *root = ob.flatten(head);
-        printList(root);
+        Node* list = createLinkedList(v);
+        Node* head = ob.flatten(list);
+        printList(head);
+        cout << "~" << endl;
     }
+
     return 0;
 }
 
