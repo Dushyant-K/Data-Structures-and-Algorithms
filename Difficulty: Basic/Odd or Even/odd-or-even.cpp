@@ -4,14 +4,16 @@ using namespace std;
 
 
 // } Driver Code Ends
+
 class Solution {
   public:
-    string oddEven(int n) {
+    bool isEven(int n) {
         // Approach-1
-        if(n & 1)return "odd";
-        return "even";
+        if(n&1)return false;
+        return true;
     }
 };
+
 
 //{ Driver Code Starts.
 int main() {
@@ -21,7 +23,11 @@ int main() {
         int N;
         cin >> N;
         Solution ob;
-        cout << ob.oddEven(N) << endl;
+        if (ob.isEven(N))
+            cout << "true" << endl;
+        else
+            cout << "false" << endl;
+        cout << "~\n";
     }
     return 0;
 }
