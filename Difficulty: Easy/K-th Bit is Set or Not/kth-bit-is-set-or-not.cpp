@@ -6,18 +6,19 @@ using namespace std;
 
 
 // } Driver Code Ends
-// User function Template for C++
 
 class Solution {
   public:
-    // Function to check if Kth bit is set or not.
     bool checkKthBit(int n, int k) {
-        // Your code here
-        // approach-1
-        if(n & (1<<k))return true;
+        //Approach-1
+        if(n & (1<<(k))){
+            return true;
+        }
         return false;
+        
     }
 };
+
 
 //{ Driver Code Starts.
 
@@ -32,9 +33,10 @@ int main() {
         cin >> k; // bit number k
         Solution obj;
         if (obj.checkKthBit(n, k))
-            cout << "Yes" << endl;
+            cout << "true" << endl;
         else
-            cout << "No" << endl;
+            cout << "false" << endl;
+        cout << "~" << endl;
     }
     return 0;
 }
