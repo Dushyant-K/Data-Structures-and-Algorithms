@@ -1,33 +1,34 @@
 class Solution {
 public:
     int numberOfPoints(vector<vector<int>>& nums) {
-        //Approach-1
-   vector<pair<int, int>> events;
+        //Approach-1(Using Line Sweep Algorigthim)
+        int n =nums.size();
 
-    // Step 1: Create events for each car interval
-    for (const auto& car : nums) {
-        int start = car[0];
-        int end = car[1];
-        events.emplace_back(start, 1);   // Increment coverage at start
-        events.emplace_back(end + 1, -1); // Decrement coverage after end
-    }
+        vector<pair<int,int>> points;
+        for(auto it:nums){
+            int start = it[0];
+            int end = it[1];
 
-    // Step 2: Sort events by position (and by type for consistency)
-    sort(events.begin(), events.end());
+            points.push_back({start,1});
+            points.push_back({end+1,-1});
+        }
+        sort(points.begin(),points.end());
 
-    // Step 3: Sweep line to count covered points
-    int coverage = 0, prev = -1, result = 0;
-    for (const auto& [pos, type] : events) {
-        // If we had active coverage, count the points since the last event
-        if (coverage > 0 && prev != -1) {
-            result += pos - prev;
+        int count = 0;
+        int prev =-1;
+        int coverage = 0;
+        for(auto it:points)
+        {
+            int point = it.first;
+            int val = it.second;
+            if(coverage>0&&prev!=-1){
+                count+=point-prev;
+            }
+
+            coverage+=val;
+            prev=point;
         }
 
-        // Update the coverage and set the previous position
-        coverage += type;
-        prev = pos;
-    }
-
-    return result;
+        return count;
     }
 };
