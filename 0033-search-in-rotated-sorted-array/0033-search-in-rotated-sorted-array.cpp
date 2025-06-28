@@ -7,10 +7,9 @@ public:
         int ans=-1;
         while(low<=high){
             int mid=(low+high)/2;
-            if(nums[mid]==target)return mid;
-           
-           if(nums[low]<=nums[mid]){
-            if(nums[low]<=target && nums[mid]>target){
+            if(nums[mid]==target)return mid;         
+            if(nums[low]<=nums[mid]){
+            if(nums[low]<=target && nums[mid]>=target){
                 high=mid-1;
             }
             else{
@@ -18,13 +17,12 @@ public:
             }
            }
            else{
-            if(nums[mid]<target && nums[high]>=target){
+            if(nums[mid]<=target && nums[high]>=target){
                 low=mid+1;
             }
             else{
                 high=mid-1;
             }
-
            }
         }
         return -1;      
