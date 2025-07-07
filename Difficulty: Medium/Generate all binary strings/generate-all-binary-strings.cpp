@@ -1,64 +1,27 @@
-//{ Driver Code Starts
-//Initial Template for C++
-#include<bits/stdc++.h>
-using namespace std;
+// User function Template for C++
 
-
-// } Driver Code Ends
-//User function Template for C++
-
-class Solution{
+class Solution {
     private:
-     
-     void generateAll(string str, int len, int n, vector<string>& res){
-         if(len==n){
-             res.push_back(str);
-             return;
-         }
-         
-         if(str[len-1]=='0'){
-             generateAll(str+"0",len+1,n,res);
-             generateAll(str+"1",len+1,n,res);
-         }
-         else{
-             generateAll(str+"0",len+1,n,res);
-         }
-     }
-public:
-    vector<string> generateBinaryStrings(int num){
+    void generateAllBinaryString(string str, vector<string>& ans, int n){
+        if(str.length()==n){
+            ans.push_back(str);
+            return ;
+        }
+        
+        //Adding 0 to the string
+        generateAllBinaryString(str+"0",ans,n);
+        //Adding 1 to the string
+        if(str.empty()||str.back()=='0')
+        generateAllBinaryString(str+"1",ans,n);
+    }
+  public:
+    vector<string> generateBinaryStrings(int num) {
         //Approach-1
-        vector<string> res;
+        string str="";
+        vector<string> ans;
         
-         //Generate all binary strings starting with 0
-        generateAll("0",1,num,res);
+        generateAllBinaryString(str,ans,num);
         
-        //Generate all binary strings starting with 1
-        generateAll("1",1,num,res);
-        
-        return res;
+        return ans;
     }
 };
-
-//{ Driver Code Starts.
-int main(){
-    int t = 1;
-    cin >> t;
-
-
-    while(t--){
-        //Input
-        int n; cin >> n;
-
-        Solution obj;
-        
-        vector<string> v = obj.generateBinaryStrings(n);
-        for(auto it:v) cout<<it<<" ";
-        cout << endl;
-    
-cout << "~" << "\n";
-}
-
-    return 0;
-}
-
-// } Driver Code Ends
