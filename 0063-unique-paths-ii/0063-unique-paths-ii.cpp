@@ -47,14 +47,13 @@ public:
         //Approach-3(Space optimization)
         int n = obstacleGrid.size();
         int m = obstacleGrid[0].size();
-        vector<int> prev(m,-1);
+        vector<int> prev(m,0);
         if(obstacleGrid[0][0]==1)return 0;
 
         for(int i=0;i<n;i++){
             vector<int> temp(m);
             for(int j=0;j<m;j++){
                 if(i==0&&j==0){
-                    prev[0]=1;
                     temp[0]=1;
                 }
                 else{
