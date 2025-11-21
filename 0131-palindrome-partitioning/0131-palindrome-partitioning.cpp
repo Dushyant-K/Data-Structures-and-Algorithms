@@ -1,33 +1,41 @@
 class Solution {
-    private:
-    void getAllPartitions(int idx, string s, vector<string>& ds, vector<vector<string>>& ans){
-        if(idx==s.length()){
-            ans.push_back(ds);
+public:
+    bool isPalindrome(string str){
+        int length = str.length();
+
+        int start=0;
+        int end = length-1;
+
+        while(start<end){
+            if(str[start]!=str[end])return false;
+            start++;
+            end--;
+        }
+
+        return true;
+    }
+    void solve(int idx, int n, vector<string> partitions, vector<vector<string>>& ans, string& s){
+        if(idx==n){
+            ans.push_back(partitions);
             return;
         }
-        for(int i=idx;i<s.length();i++){
-            if(isPalindrome(idx,i,s)){
-                ds.push_back(s.substr(idx,i-idx+1));
-                getAllPartitions(i+1,s,ds,ans);
-                ds.pop_back();
+
+        for(int i=idx;i<n;i++){
+            string str = s.substr(idx,i-idx+1);
+            if(isPalindrome(str)){
+                partitions.push_back(str);
+                solve(i+1,n,partitions,ans,s);
+                partitions.pop_back();
             }
         }
     }
-
-    bool isPalindrome(int low, int high, string s){
-        while(low<=high){
-            if(s[low]!=s[high])return false;
-            low++;
-            high--;
-        }
-        return true;
-    }
-public:
     vector<vector<string>> partition(string s) {
-        //Approach-1
-        vector<string> ds;
+        //Approach-1 (Using Recursion and  backtracking)
+        int n = s.length();
+        vector<string> partitions;
         vector<vector<string>> ans;
-        getAllPartitions(0,s,ds,ans);
+
+        solve(0,n,partitions,ans,s);
         return ans;
     }
 };
