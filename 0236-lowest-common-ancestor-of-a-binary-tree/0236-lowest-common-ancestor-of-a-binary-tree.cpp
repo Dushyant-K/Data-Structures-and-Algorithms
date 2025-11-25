@@ -9,34 +9,20 @@
  */
 class Solution {
 public:
-    bool getPath(TreeNode* root, TreeNode* p, vector<TreeNode*>& res){
-        if(root==nullptr)return false;
-
-        res.push_back(root);
-
-        if(root==p)return true;
-
-        bool flag1 = getPath(root->left,p,res);
-        bool flag2 = getPath(root->right,p,res);
-
-        if(flag1||flag2)return true;
-
-        res.pop_back();
-        return false;
-    }
     TreeNode* lowestCommonAncestor(TreeNode* root, TreeNode* p, TreeNode* q) {
-       vector<TreeNode*> path1, path2;
+        //Approach-1(Using DFS)
+        if(root==nullptr)return root;
 
-        if (!getPath(root, p, path1) || !getPath(root, q, path2)) {
-            // Handle cases where p or q is not in the tree
-            return nullptr;
+        if(root->val==p->val||root->val==q->val){
+            return root;
         }
 
-        int i = 0;
-        while (i < path1.size() && i < path2.size() && path1[i] == path2[i]) {
-            i++;
-        }
+        TreeNode* left = lowestCommonAncestor(root->left,p,q);
+        TreeNode* right = lowestCommonAncestor(root->right,p,q);
 
-        return path1[i - 1];
+        if(left==nullptr)return right;
+        if(right==nullptr)return left;
+
+        return root;
     }
 };
