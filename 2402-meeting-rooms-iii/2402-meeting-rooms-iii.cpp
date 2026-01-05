@@ -1,40 +1,52 @@
 class Solution {
 public:
     int mostBooked(int n, vector<vector<int>>& meetings) {
-        //Approach-1(Using Sorting plus heap)
-        int noOfMeetings = meetings.size();
-        if(noOfMeetings<=n)return 0;
+        sort(meetings.begin(), meetings.end());
 
-        sort(meetings.begin(),meetings.end(),[](vector<int>& a, vector<int>& b){
-            return a[0]<b[0];
-        });
+        vector<int> count(n);
+        vector<long long> timer(n);
 
-        vector<int> rooms(n,1);
-        priority_queue<pair<int,int>,vector<pair<int,int>>,greater<pair<int,int>>> pq;
-        int i;
-        for(i=0;i<n;i++){
-            pq.push({meetings[i][1],i});
-        }
+        int itr = 0;
 
-        int maxi = 1;
-        int ans=0;
-        while(i<noOfMeetings){
-            auto it = pq.top();
-            pq.pop();
+        while (itr < meetings.size()) {
+            int start = meetings[itr][0];
+            int end = meetings[itr][1];
+            long long dur = end - start;
 
-            int duration = meetings[i][1]-meetings[i][0];
-            pq.push({it.first+duration,it.second});
-            rooms[it.second]++;
-            if(maxi<rooms[it.second]){
-                ans = it.second;
-            }else if(maxi==rooms[it.second]){
-                ans = min(ans,it.second);
+            int room = -1;
+            long long earliest = LLONG_MAX;
+            int earliestRoom = -1;
+
+            for (int i = 0; i < n; i++) {
+                if (timer[i] < earliest) {
+                    earliest = timer[i];
+                    earliestRoom = i;
+                }
+                if (timer[i] <= start) {
+                    room = i;
+                    break;
+                }
             }
 
-            maxi = max(maxi,rooms[it.second]);
-            i++;
+            if (room != -1) {
+                timer[room] = end;
+                count[room]++;
+            } else {
+                timer[earliestRoom] += dur;
+                count[earliestRoom]++;
+            }
+
+            itr++;
         }
 
-        return ans;
+        int max = 0, idx = 0;
+        for (int i = 0; i < n; i++) {
+            if (count[i] > max) {
+                max = count[i];
+                idx = i;
+            }
+        }
+
+        return idx;
     }
 };
